@@ -1,5 +1,5 @@
 ---
-title: Basic Data Structures
+title: 'Week 2: Scheduling'
 ---
 
 Oct 5
