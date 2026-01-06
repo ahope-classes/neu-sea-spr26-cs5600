@@ -41,6 +41,7 @@ collections:
   schedules:
   announcements:
   labs:
+    output: true
 # Default layouts for each collection type
 defaults:
   - scope:
@@ -70,7 +71,7 @@ defaults:
       path: ''
       type: labs
     values:
-      labyout: lab
+      layout: lab
 
 compress_html:
   clippings: all
