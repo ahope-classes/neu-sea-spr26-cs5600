@@ -1,23 +1,18 @@
 ---
-title: Introduction to Java
+title: Processes
 ---
 
-Sep 28
-: [Java & Git](#)
-  : [1.1](#)
+Jan 5
+: [Processes](#)
+  : **READING**{: .label .label-purple }[Chapter 4](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-intro.pdf)
 
-Sep 29
-: **Section**{: .label .label-purple }[Intro to Java](#)
+
+Jan 7
+: **Lecture**{: .label .label-yellow }[Intro to Java](#)
   : [Solution](#)
 
-Sep 30
+Jan 1
 : [Variables & Objects](#)
   : [1.2](#), [2.1](#)
 
-Oct 1
-: **Lab**{: .label .label-purple } [Intro to Java](#)
 
-Oct 2
-: [Tracing, IntLists, & Recursion](#)
-  : [2.1](#)
-: **HW 1 due**{: .label .label-red }
