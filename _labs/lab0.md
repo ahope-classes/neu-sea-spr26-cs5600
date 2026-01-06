@@ -1,5 +1,6 @@
 ---
 title: 'Lab 0: Setup and Tooling'
+layout: default
 ---
 # Lab 0: Setup and Tooling
 
