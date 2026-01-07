@@ -27,11 +27,6 @@ color_scheme: neu
 search_enabled: true
 heading_anchors: true
 permalink: pretty
-aux_links:
-  Kevin Lin:
-    - 'https://kevinl.info'
-  Just the Class on GitHub:
-    - 'https://github.com/kevinlin1/just-the-class'
 footer_content:
 
 # Collections for website data
@@ -44,6 +39,9 @@ collections:
     output: true
     permalink: "/:collection/:path/"
   homeworks:
+    permalink: "/:collection/:path/"
+    output: true
+  notes: 
     output: true
 # Default layouts for each collection type
 defaults:
@@ -80,6 +78,11 @@ defaults:
       type: homeworks
     values:
       layout: homework
+  - scope:
+      path: ''
+      type: notes
+    values:
+      layout: note
 
 compress_html:
   clippings: all
