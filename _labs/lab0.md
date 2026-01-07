@@ -4,6 +4,7 @@ layout: page
 released: 2026-01-06
 due: 2026-01-15
 index: 0
+summary: "Set up your development environment for future labs and get familiar with tooling. "
 ---
 # Lab 0: Setup and Tooling
 
@@ -123,9 +124,9 @@ git config --global user.email "netid@northeastern.edu
 
 ## Getting the labs repository
 
-Labs will be released using the [neu-sea-cs5600-labs](https://github.com/XXX) repository.
+Labs will be released using the [neu-sea-cs5600-labs](https://github.com/ahope-classes/neu-sea-spr26-cs5600-labs) repository.
 
-Please [click this link](https://classroom.github.com/XXX) to create **your own private clone** of the labs repository; this clone lives on (is hosted by) GitHub. Once that clone exists, you will perform a further clone to get that private repository onto your machine. You’ll do your work on your machine, and then push your work to the GitHub-hosted private repository to save our work, and to allow us to grade it.
+Please [click this link](https://classroom.github.com/a/Jbhlg8no) to create **your own private clone** of the labs repository; this clone lives on (is hosted by) GitHub. Once that clone exists, you will perform a further clone to get that private repository onto your machine. You’ll do your work on your machine, and then push your work to the GitHub-hosted private repository to save our work, and to allow us to grade it.
 
 Here’s how it should work:
 
@@ -156,7 +157,7 @@ warning: You appear to have cloned an empty repository.
     
     **Troubleshooting:** If you get “The connection timed out”, see the Git FAQ below.
     
-- **Set up the upstream repo**: The lab skeleton code is kept in the repo `https://github.com/XXX/labs`, managed by the course staff. Therefore, the first thing you need to do is to set up your own lab repo to track the changes made in the `labs` repo. In the git world, `XXX/labs` would be the “upstream” repo from which changes should “flow” into your own lab repo.
+- **Set up the upstream repo**: The lab skeleton code is kept in the repo `https://github.com/ahope-classes/neu-sea-spr26-cs5600-labs`, managed by the course staff. Therefore, the first thing you need to do is to set up your own lab repo to track the changes made in the `labs` repo. In the git world, `neu-sea-spr26-cs5600-labs` would be the “upstream” repo from which changes should “flow” into your own lab repo.
     
     Type `git remote add` to add the upstream repo, and `git remote -v` to check that the right repo is indeed an upstream for your own lab repo.
     
