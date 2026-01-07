@@ -83,9 +83,9 @@ Many actions on GitHub will require authenticating yourself--- proving that you 
 1. If you don’t have a GitHub account, sign up for one [here](https://github.com/join). Probably you want a Free plan.
 2. Create or configure an SSH key pair using [GitHub’s instructions](https://docs.github.com/en/authentication/connecting-to-github-with-ssh). To summarize:
     - Create the key (if you don’t have one already) using the `ssh-keygen` program:
-        ```sh
-        ssh-keygen -t rsa -b 2048
-        ```
+```sh
+ssh-keygen -t rsa -b 2048
+```
         Then press enter to use the default file path and key name (should be `~/.ssh/id_rsa`), and choose a password. Your public key should now be in the file `~/.ssh/id_rsa.pub`.
         
     - Run `cat ~/.ssh/id_rsa.pub` to display your public key.
@@ -94,9 +94,9 @@ Many actions on GitHub will require authenticating yourself--- proving that you 
 
 3. Use `ssh-agent` so that you don’t have to type your password every time you use the key. Typically the following is enough:
     
-    ```sh
-     ssh-add
-    ```
+```sh
+ ssh-add
+```
     
 
 but you may need to explicitly invoke `ssh-agent` and/or type `ssh-add ~/.ssh/<key_name>`, where `<key_name>` is the name of the key that you created above.
@@ -106,10 +106,10 @@ but you may need to explicitly invoke `ssh-agent` and/or type `ssh-add ~/.ssh/<k
 **If you use multiple computers to do your labs**: You’ll need to configure an identity on each of these computers. You can do this either by creating and configuring multiple SSH keys, following steps 2 and 3 above. That is the safer approach. An alternative is to copy the public and private keys between the computers. This is an easier approach, but if you don’t trust the computer you are copying to, you should not do this, because it leaves you vulnerable to being impersonated. In any case, if copying, you need to get the file permissions correct. Here is a way to do so:
 
 ```sh
-    $ mkdir -p ~/.ssh
-    ... in here, copy public and private key files into ~/.ssh ...
-    $ chmod -R go-rwx ~/.ssh   # removes group and world permissions from everything
-    $ chmod go+r ~/.ssh/*.pub  # add back group and world readability for public keys
+$ mkdir -p ~/.ssh
+... in here, copy public and private key files into ~/.ssh ...
+$ chmod -R go-rwx ~/.ssh   # removes group and world permissions from everything
+$ chmod go+r ~/.ssh/*.pub  # add back group and world readability for public keys
 ```
 
 ### Configure Git
@@ -117,8 +117,8 @@ but you may need to explicitly invoke `ssh-agent` and/or type `ssh-add ~/.ssh/<k
 You should also tell your `git` installation your name and email, if you haven’t already. This will ensure that you are recorded as the author of your code. For the `user.email` option, use your NYU email address:
 
 ```
-    git config --global user.name "FIRST_NAME LAST_NAME"
-    git config --global user.email "netid@northeastern.edu
+git config --global user.name "FIRST_NAME LAST_NAME"
+git config --global user.email "netid@northeastern.edu
 ```
 
 ## Getting the labs repository
@@ -144,11 +144,11 @@ Here’s how to get a local clone of your private repo on your machine. Assuming
 
 - **Clone “your” lab repo**. Run the next command in a place on your computer where you fill find it. This will set up `cs5600` as THE directory where you do your labs work, so make sure it’s somewhere you can get to easily:
     
-    ```sh
-      $ git clone git@github.com:neu-sea-cs5600/labs-spr26-002-<Your-GitHub-Username>.git cs5600
-      Cloning into ....
-      warning: You appear to have cloned an empty repository.
-    ```
+```sh
+$ git clone git@github.com:neu-sea-cs5600/labs-spr26-002-<Your-GitHub-Username>.git cs5600
+Cloning into ....
+warning: You appear to have cloned an empty repository.
+```
     
     Note that the `git@github.com:....` can be obtained on GitHub by visiting a link like `https://github.com/neu-sea-cs5600/labs-spr26-002-<Your-GitHub-Username>`, and then clicking the “Clone or download” button. You want to clone using SSH, not HTTPS, so you might need to click “Use SSH”.
     
@@ -160,57 +160,57 @@ Here’s how to get a local clone of your private repo on your machine. Assuming
     
     Type `git remote add` to add the upstream repo, and `git remote -v` to check that the right repo is indeed an upstream for your own lab repo.
     
-    ```
-      $ cd cs5600
-      $ git remote add upstream https://github.com/XXX/labs.git
-      $ git remote -v
-      origin git@github.com:XXX/labs-spr26-002-<YourGithubUsername>.git (fetch)
-      origin git@github.com:XXX/labs-spr26-002-<YourGithubUsername>.git (push)
-      upstream https://github.com/XXX/labs.git (fetch)
-      upstream https://github.com/XXX/labs.git (push)
-    ```
+```
+$ cd cs5600
+$ git remote add upstream https://github.com/XXX/labs.git
+$ git remote -v
+origin git@github.com:XXX/labs-spr26-002-<YourGithubUsername>.git (fetch)
+origin git@github.com:XXX/labs-spr26-002-<YourGithubUsername>.git (push)
+upstream https://github.com/XXX/labs.git (fetch)
+upstream https://github.com/XXX/labs.git (push)
+```
     
     Now fetch the commits from upstream:
     
-    ```
-      $ git fetch upstream
-      remote: Enumerating objects: 13, done.
-      .....
-      From https://github.com/XXX/labs
-      * [new branch]      main       -> upstream/main
-    ```
+```
+$ git fetch upstream
+remote: Enumerating objects: 13, done.
+.....
+From https://github.com/XXX/labs
+* [new branch]      main       -> upstream/main
+```
     
     Now the commits on the upstream’s main branch are on your machine. Now you need to create a local branch to track the upstream’s branch:
     
-    ```
-      $ git checkout -b main upstream/main
-      Branch 'main' set up to track remote branch 'main' from 'upstream'.
-      Switched to a new branch 'main'
-    ```
+```
+$ git checkout -b main upstream/main
+Branch 'main' set up to track remote branch 'main' from 'upstream'.
+Switched to a new branch 'main'
+```
     
     Now you can browse your local copy of the repo:
     
-    ```
-      ls
-    ```
+```sh
+ls
+```
     
 - **Store the resulting code in GitHub so you don’t lose work**. After you pull in the lab code, your local repository is “ahead” of the private repository stored on GitHub. Get them into sync:
     
-    ```
-      $ git push origin main
-      Enumerating objects: 9, done.
-      ....
-      To github.com:XXX/labs-spr26-YOURUSERNAME.git
-       * [new branch]      main -> main
-    ```
+```sh
+$ git push origin main
+Enumerating objects: 9, done.
+....
+To github.com:XXX/labs-spr26-YOURUSERNAME.git
+ * [new branch]      main -> main
+```
     
 - **To obtain future labs and changes**: You can check for and merge in changes upstream by typing:
     
-    ```
-      git fetch upstream
-      git diff <commit_name> upstream/main
-      git merge upstream/main
-    ```
+```sh
+git fetch upstream
+git diff <commit_name> upstream/main
+git merge upstream/main
+```
     
     You should do this periodically. And we will remind you to fetch upstream on Campuswire if we make changes/bug-fixes to the labs.
     
@@ -241,9 +241,9 @@ To see if your local repo is up-to-date with your origin repo on github.com and 
     The “message” can be any string. But we ask you to leave something descriptive. In the future, when you check your git logs, this message helps you recall what you did for this commit.
 - **How can I change a message if it’s already pushed to GitHub?**
     You _can’t_ do this safely. If you want to put another message on top of a previous commit, create an empty commit with your new message:
-    ```sh
-      git commit --allow-empty -m "<new msg>"
-    ```
+```sh
+git commit --allow-empty -m "<new msg>"
+```
     
 - **I got an error message `Fatal: Not a git repository`**.
     This means you are typing git commands outside the directory containing your git repository. You need to get back to the `cs5600` directory that you created when you cloned above.
@@ -266,14 +266,14 @@ We assume that you have cloned your XXX repository into your local machine, as d
 To build your Docker environment:
 1. Launch Docker. On Mac and Windows, there should be a visible whale icon in the notification area (on Mac, the status menu in the upper right toolbar; on Windows, the system tray in the lower right of the screen).
 2. In a terminal, change into your `cs5600` directory, and then the `docker`subdirectory, for example:
-    ```sh
-     cd ~/cs5600  # this is where you cloned the repository earlier
-     cd docker
-    ```
+```sh
+cd ~/cs5600  # this is where you cloned the repository earlier
+cd docker
+```
 3. Run the following command. It will take a while, up to ten minutes:
-    ```sh
-     ./cs5600-build-docker
-    ```
+```sh
+./cs5600-build-docker
+```
     
 We may need to change the Docker image during the semester. If we do, we will update `Dockerfile`s in the labs repository. You will update your repository to get the latest `Dockerfile`, then re-run the `./cs5600-build-docker` command from Step 3. However, later runs will in general be faster since they’ll take advantage of your previous work.
 
@@ -285,20 +285,20 @@ Here’s an example of running CS5600 Docker on a Mac OS X x86 host (on Windows,
 
 ```bash
 
-    $ cd ~/cs5600
-    $ uname
-    Darwin
-    $ uname -a
-    Darwin Mike-MacBook-Pro.local 22.1.0 Darwin Kernel Version 22.1.0: Sun Oct  9 20:14:54 PDT 2022; root:xnu-8792.41.9~2/RELEASE_X86_64 x86_64
-    $ ./cs5600-run-docker
-    user@f3a862301b38:~/cs5600-labs$ uname
-    Linux
-    user@f3a862301b38:~/cs5600-labs$ uname -a
-    Linux f3a862301b38 5.15.49-linuxkit #1 SMP Tue Sep 13 07:51:46 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
-    user@f3a862301b38:~/cs5600-labs$ ls
-    cs5600-run-docker  docker  lab1  README.md
-    user@f3a862301b38:~/cs5600-labs$ exit
-    logout
+$ cd ~/cs5600
+$ uname
+Darwin
+$ uname -a
+Darwin Mike-MacBook-Pro.local 22.1.0 Darwin Kernel Version 22.1.0: Sun Oct  9 20:14:54 PDT 2022; root:xnu-8792.41.9~2/RELEASE_X86_64 x86_64
+$ ./cs5600-run-docker
+user@f3a862301b38:~/cs5600-labs$ uname
+Linux
+user@f3a862301b38:~/cs5600-labs$ uname -a
+Linux f3a862301b38 5.15.49-linuxkit #1 SMP Tue Sep 13 07:51:46 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
+user@f3a862301b38:~/cs5600-labs$ ls
+cs5600-run-docker  docker  lab1  README.md
+user@f3a862301b38:~/cs5600-labs$ exit
+logout
 ```
 
 A prompt like `user@f3a862301b38:~$` means that your terminal is connected to the virtual machine (VM). The `f3a862301b38` is a unique identifier for this running VM. You can execute any Linux commands you want. To escape from the VM, type Control-D or run the `exit` command.

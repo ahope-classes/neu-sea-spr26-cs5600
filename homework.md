@@ -6,6 +6,7 @@ description: The list of homeworks for this course
 
 # Homeworks
 
+Site info: {{ site.baseurl }}
 
 
 
@@ -23,10 +24,14 @@ description: The list of homeworks for this course
 
 
 |Week |Title |Released |Due |
-|:---- |:----- |:-------- |:--- |
+|:----|:----- |:-------- |:--- |
 {% for hw in site.homeworks -%}
-| {{ hw.week }}   | <a href="{{ site.url }}/{{ hw.url }}">{{ hw.title }} </a> | {{ hw.released }} | {{ hw.due }}     | 
-{%- endfor -%}
+| {{ hw.week }}   | <a href="{{ site.baseurl }}/{{ hw.url }}">{{ hw.title }} </a> | {{ hw.released }} | {{ hw.due }} | 
+{% endfor %}
+
+
+
+
 
 
 try another way
