@@ -22,14 +22,14 @@ description: The list of homeworks for this course
 ## Homeworks in a table
 
 
-| Week | Title | Released | Due |
-| ---- | ----- | -------- | --- |
+|Week |Title |Released |Due |
+|:---- |:----- |:-------- |:--- |
 {% for hw in site.homeworks %}
-  
-| {{ hw.week }}   | <a href="{{ hw.url }}">{{ hw.title }} </a> | {{ hw.released }} | {{ hw.due }}     |
-
-  
+| {{ hw.week }}   | <a href="{{ site.url }}/{{ hw.url }}">{{ hw.title }} </a> | {{ hw.released }} | {{ hw.due }}     | 
 {% endfor %}
+
+
+
 
 
 <ul>

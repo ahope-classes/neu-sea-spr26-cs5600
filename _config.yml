@@ -42,9 +42,11 @@ collections:
   announcements:
   labs:
     output: true
+    permalink: "/:collection/:path/"
   homeworks:
     output: true
-    # sort_by: released
+    permalink: "/:collection/:path/"
+    sort_by: released
 # Default layouts for each collection type
 defaults:
   - scope:
