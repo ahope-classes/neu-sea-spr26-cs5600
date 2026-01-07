@@ -1,6 +1,9 @@
 ---
 title: 'Lab 0: Setup and Tooling'
 layout: page
+released: 2026-01-06
+due: 2026-01-15
+index: 0
 ---
 # Lab 0: Setup and Tooling
 
@@ -24,8 +27,8 @@ We will be using [Windows Subsystem for Linux](https://learn.microsoft.com/en-us
 2. Install (or update to) WSL 2:
 
 ```sh
-  > wsl --install
-  > wsl --set-default-version 2
+> wsl --install
+> wsl --set-default-version 2
 ```
 
 If your Windows version is before Windows 10 version 2004, then you need to follow these [instructions])([https://learn.microsoft.com/en-us/windows/wsl/install-manual](https://learn.microsoft.com/en-us/windows/wsl/install-manual)) to manually install WSL 2.
@@ -34,15 +37,15 @@ If your Windows version is before Windows 10 version 2004, then you need to foll
 4. After the reboot, start Powershell again. Install Linux by running
 
 ```sh
-  > wsl --install -d ubuntu
-  > wsl --set-default ubuntu
+> wsl --install -d ubuntu
+> wsl --set-default ubuntu
 ```
 
 5. Start WSL: in Powershell run:
 
 ```sh
-  > wsl
-  $
+> wsl
+$
 ```
 
 6. Verify that you have git installed by running the following within WSL (this should display a help message):
@@ -54,7 +57,7 @@ If your Windows version is before Windows 10 version 2004, then you need to foll
 7. Make files group-writable by default:
 
 ```sh
-  echo "umask 002" > ~/.bashrc
+echo "umask 002" > ~/.bashrc
 ```
 
 Everything you do below (including the Git setup, etc.) and in the rest of class should be done within WSL, which you start by running `wsl` in Powershell.
