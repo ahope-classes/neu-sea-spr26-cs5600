@@ -45,7 +45,6 @@ collections:
     permalink: "/:collection/:path/"
   homeworks:
     output: true
-    permalink: "/:collection/:path/"
 # Default layouts for each collection type
 defaults:
   - scope:
