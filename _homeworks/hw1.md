@@ -1,5 +1,5 @@
 ---
-title: 'Homework 1: Fake Assignment for Testing'
+title: 'Homework 1'
 layout: homework
 week: 1
 released: 2026-01-08

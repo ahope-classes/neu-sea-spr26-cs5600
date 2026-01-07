@@ -4,6 +4,7 @@ layout: homework
 week: 0
 released: 2026-01-06
 due: 2026-01-15
+summary: 'C programming,'
 ---
 
 ## Overview

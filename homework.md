@@ -17,7 +17,7 @@ This is an overview of the content and timing of the homeworks for this semester
 |Week |Title |Released |Due |
 |:----|:----- |:-------- |:--- |
 {% for hw in site.homeworks -%}
-| {{ hw.week }}   | <a href="{{ site.baseurl }}/{{ hw.url }}">{{ hw.title }} </a><br><p> {{ hw.summary }}</p> | {{ hw.released }} | {{ hw.due }} | 
+| {{ hw.week }}   | <a href="{{ site.baseurl }}/{{ hw.url }}">{{ hw.title }} </a><br> {{ hw.summary }} | {{ hw.released }} | {{ hw.due }} | 
 {% endfor %}
 
 
