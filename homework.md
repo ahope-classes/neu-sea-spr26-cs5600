@@ -33,3 +33,26 @@ Jan 5
 
   
 {% endfor %}
+
+
+<ul>
+  {% for hw in site.homeworks %}
+    <li>
+      <a href="{{ hw.url }}">{{ hw.title }}</a>
+    </li>
+  {% endfor %}
+</ul>
+
+
+
+|Title  |Link  |
+|---|---|
+{% for hw in site.homeworks -%}
+{% if hw.title -%}
+|{{ hw.title }}  |[Click Here]({{ hw.url }})  |
+{% endif %}
+{%- endfor -%}
+
+
+
+

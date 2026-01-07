@@ -44,7 +44,7 @@ collections:
     output: true
   homeworks:
     output: true
-    sort_by: released
+    # sort_by: released
 # Default layouts for each collection type
 defaults:
   - scope:
