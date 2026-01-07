@@ -4,19 +4,16 @@ title: Homeworks
 description: The list of homeworks for this course
 ---
 
-# Labs
+# Homeworks
 
 
-Jan 5
-: [Processes](#)
-  : **READING**{: .label .label-purple }[Chapter 4](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-intro.pdf)
-  **LAB**{: .label .label-yellow }[Lab 0](labs/lab0)
+
 
 
 {% for hw in site.homeworks %}
   <h2>
     <a href="{{ hw.url }}">
-      {{ lab.title }} 
+      {{ hw.title }} 
     </a>
   </h2>
   
@@ -52,6 +49,15 @@ Jan 5
 |{{ hw.title }}  |[Click Here]({{ hw.url }})  |
 {% endif %}
 {%- endfor -%}
+
+
+
+| head1        | head two          | three |
+|:-------------|:------------------|:------|
+| ok           | good swedish fish | nice  |
+| out of stock | good and plenty   | nice  |
+| ok           | good `oreos`      | hmm   |
+| ok           | good `zoute` drop | yumm  |
 
 
 
