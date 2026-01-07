@@ -5,6 +5,15 @@ summary: 'Placeholder'
 ---
 
 
+# Syllabus
+{:.no_toc}
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
 1. Introduction and goals
 2. What is an operating system?
 3. Why study systems?
@@ -14,50 +23,40 @@ summary: 'Placeholder'
 ---------------------------------------------------------------------
 
 
-1. Introduction and goals
-
-  --Introduce staffs
-
-  --Goals
-
-    a. think as a system developer by learning how systems work
-
-    b. learn abstractions and concepts in operating systems
-    which are useful beyond OSes
-
-    c. learn a set of skills and tools that are useful for
-    developing systems (such as vim/emacs, gdb, shell)
-
-    d. "no pain no gain". CS5600 is supposed to be heavy-loaded---you
-    have four main labs to do
-
-  --Non-goals
-
-    a. not a programming class
-
-    b. not a teamwork class
-       --face challenges by your own
-       --go deep instead of wide
-
-  --Assumptions
-
-    a. know how to program: have used some programming languages
-    (e.g., Python, Java)
-
-    b. understand basic algorithms and data structures
-
-    c. feel comfortable with C and Linux (you will get a sense from lab0)
-
-    d. willing to learn (by yourself)
-
-    [Ask questions:
-      --who have taken OS courses, undergrad?
-      --how many have used Linux? C? git? vim/emacs?
-      --how many heard of registers (as in CPU)?
-    ]
+## Introduction and Goals
+ 
+ ### Introduce Staff
 
 
-2. What is an operating system?
+
+ ### Goals
+
+* think as a system developer by learning how systems work
+* learn abstractions and concepts in operating systems which are useful beyond OSes
+* learn a set of skills and tools that are useful for developing systems (such as vim/emacs, gdb, shell)
+* "no pain no gain". CS5600 is supposed to be heavy-loaded---you have five main labs to do
+
+  ### Non-goals
+
+* not a programming class
+* not a teamwork class
+	- face challenges by your own
+	- go deep instead of wide
+
+### Assumptions
+
+* know how to program: have used some programming languages (e.g., Python, Java)
+* understand basic algorithms and data structures
+* feel comfortable with C and Linux (you will get a sense from lab0)
+* willing to learn (by yourself)
+
+Questions:
+  - who have taken OS courses, undergrad?
+  - how many have used Linux? C? git? vim/emacs?
+  - how many heard of registers (as in CPU)?
+    
+
+## What is an operating system?
 
   [draw picture of hardware
     (memory, CPU, disk, NIC, GPU), OS, user-level programs]
@@ -66,75 +65,58 @@ summary: 'Placeholder'
   (file contents, directories and file names), security, networking,
   inter-process communication, time, terminals, etc.]
 
-  --Purpose of OS: provide services to user-level programs
+- Purpose of OS: provide services to user-level programs
+- Definition: An operating system creates, for processes, a machine that is easier to program than the raw hardware would be.
+- this software is classically described as doing two things:
 
-  --Definition: An operating system creates, for processes, a machine
-  that is easier to program than the raw hardware would be.
+  * managing the resources of the machine 
+	- example: scheduling: give every process some of the CPU
+	- example: virtual memory: give every process some physical memory
+	- resource management means that one bad program doesn't screw up another. OS does:
+		- multiplexing
+		- sharing
+		- isolation, protection
 
-  --this software is classically described as doing two things:
+  * abstracting the hardware 
+    - hide details of hardware (OS gets dirty; programmers don't)
+      - hardware is nasty to program directly!
+      - consider what is involved in getting things to the disk this provides essential convenience and portability.
 
-  a. managing the resources of the machine 
-
-    --example: scheduling: give every process some of the CPU
-
-    --example: virtual memory: give every process some physical memory
-
-    --resource management means that one bad program doesn't
-    screw up another. OS does:
-        --multiplexing
-        --sharing
-        --isolation, protection
-
-  b. abstracting the hardware 
-
-    --hide details of hardware (OS gets dirty; programmers don't)
-      --hardware is nasty to program directly!
-      --consider what is involved in getting things to the disk
-        this provides essential convenience and portability.
-
-    --you really don't want applications to have to program
+    - you really don't want applications to have to program
     the bare hardware
-
-      --would lead to lots of repeated code
-
-      --unclear how to run more than one application at once,
+      - would lead to lots of repeated code
+      - unclear how to run more than one application at once,
       particularly more than one that are mutually distrustful.
 
-      --hide details:
-
-        --"All problems in computer science can be solved by another
+      - hide details:
+        - "All problems in computer science can be solved by another
         level of indirection [abstraction]."  --Butler Lampson
-
-        --why? abstraction allows the operating system to make
+        - why? abstraction allows the operating system to make
         changes to the underlying hardware without impacting applications.
-
-        --example: switching between WiFi and cellular networks.
-
-        --example: switching between heterogeneous CPU/GPU cores
+        - example: switching between WiFi and cellular networks.
+        - example: switching between heterogeneous CPU/GPU cores
         for saving energy.
 
-    --what are examples of managing resources and providing abstractions?
-
+    - what are examples of managing resources and providing abstractions?
       many, for example, file systems, memory, and scheduling
 
       * file systems:
+        *abstraction:* illusion file is continuous array of bytes; it's not
 
-        --abstraction: illusion file is continuous array of bytes; it's not
-
-        fd = open("/tmp/foo", O_WRONLY)
-        rc = write(fd, "abc...z", 26)
-
-          [ask the meaning]
+		```c
+		fd = open("/tmp/foo", O_WRONLY)
+		rc = write(fd, "abc...z", 26)
+		```    
 
         abstractions here:
-          --files
-          --file descriptors
-          --location of the file: applications can be entirely unaware of
+          - files
+          - file descriptors
+          - location of the file: applications can be entirely unaware of
           whether the file they are writing to goes on a hard disk inside
           the computer, a USB stick attached to the computer, a remote
           storage service like Dropbox or iCloud, etc.
 
-        --isolation: user program can't write to a file unless
+        - isolation: user program can't write to a file unless
         it has permission. 
 
           in some cases, for example, smart phones, the system goes even
@@ -145,59 +127,50 @@ summary: 'Placeholder'
           errors the programmer must consider when writing programs.
 
       * memory:
-
+      	```
         movl 0x1248, %rdx   [means "get contents of 0x1248 and put in %rdx"]
-
-        --abstraction: user program thinks it is reading from
+        ```
+        - abstraction: user program thinks it is reading from
         0x1248; it is not
-
-        --more generally, user program thinks it has a linear,
+        - more generally, user program thinks it has a linear,
         contiguous address space; it does not
-
-        --isolation: user program can't write to another user's
+        - isolation: user program can't write to another user's
         memory
-
-        -- programmers use even higher abstractions
+        - programmers use even higher abstractions
         (than user program):
-
+    	```
             int a = 1;     [assign value "1" to an variable "a"]
             [Java vm -> OS -> hypervisor]
-
+         ```
       * scheduling:
 
-        --abstraction: process has the illusion that it is running
+        - abstraction: process has the illusion that it is running
         continuously; it is not
-
-        --isolation: user program that is hogging CPU gets switched
+        - isolation: user program that is hogging CPU gets switched
         out in favor of another user's program
 
+## Why study systems?
 
-3. Why study systems?
+"My Future Is In Deep Learning!"
 
-    "My Future Is In Deep Learning!"
+- 10x speedup by understanding the GPUs
+- MIG helps save 50% of GPUs
+- in fact, TensorFlow is published on OSDI'16
 
-      --10x speedup by understanding the GPUs
-      --MIG helps save 50% of GPUs
-      --in fact, TensorFlow is published on OSDI'16
+"Doing systems means being at ease with the machine" --Brad Karp
 
-    "Doing systems means being at ease with the machine" --Brad Karp
+a. It's essential to know "how things work."
 
-    a. It's essential to know "how things work."
+- doesn't matter what types of programs you work on,
+knowing what is happening under the hood is essential to
+debugging and improving performance.
+	- Java programmers, understanding GC will be helpful.(an example of two sigma)
+	- phone applications, understanding what is going on in the OS helpful with improving performance and battery life.
+    - DNNs (deep neural networks), some of the concerns from OSes impact how you batch things, how you schedule, etc.
 
-    --doesn't matter what types of programs you work on,
-    knowing what is happening under the hood is essential to
-    debugging and improving performance.
-        --Java programmers, understanding GC will be helpful.
-          (an example of two sigma)
-        --phone applications, understanding what is going on in the OS
-          helpful with improving performance and battery life.
-        -- DNNs (deep neural networks), some of the concerns from
-          OSes impact how you batch things, how you schedule, etc.
+b. The ideas are everywhere: resource management and abstraction, for example.
 
-    b. The ideas are everywhere: resource management and abstraction,
-    for example.
-
-    c. There are design trade-offs that are fundamental
+c. There are design trade-offs that are fundamental
 
       --code must be efficient (so low-level?) ...
       --...but abstract/portable (so high-level?)
