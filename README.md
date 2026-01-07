@@ -1,25 +1,25 @@
 ---
 layout: home
-title: Just the Class
+title: 'CS 5600: Systems'
 nav_exclude: true
 permalink: /:path/
 seo:
   type: Course
-  name: Just the Class
+  name: Systems
 ---
 
-# Just the Class
+# CS 5600: Systems
 
-Just the Class is a GitHub Pages template developed for the purpose of quickly deploying course websites. In addition to serving plain web pages and files, it provides a boilerplate for:
+This is the course website for CS 5600, Systems, at Northeastern University, Seattle campus, Spring 2026 semester. 
 
-- [announcements](announcements.md),
-- a [course calendar](calendar.md),
-- a [staff](staff.md) page,
-- and a weekly [schedule](schedule.md).
+### Quick Links
 
-Just the Class is a template that extends the popular [Just the Docs](https://github.com/just-the-docs/just-the-docs) theme, which provides a robust and thoroughly-tested foundation for your website. Just the Docs include features such as:
+- [announcements](announcements.md)
+- [course calendar](calendar.md)
+- [staff](staff.md) page
+- [homeworks](homework.md)
+- [labs](lab.md)
+- [syllabus](about.md)
 
-- automatic [navigation structure](https://just-the-docs.github.io/just-the-docs/docs/navigation-structure/),
-- instant, full-text [search](https://just-the-docs.github.io/just-the-docs/docs/search/) and page indexing,
-- and a set of [UI components](https://just-the-docs.github.io/just-the-docs/docs/ui-components) and authoring [utilities](https://just-the-docs.github.io/just-the-docs/docs/utilities).
+This course is based heavily on previous Systems courses, including [previous courses at Northeastern](https://naizhengtan.github.io/22spring/schedule/) and [versions at NYU](https://cs.nyu.edu/~mwalfish/classes/21sp/index.html), which have utilized resources from many other excellent Systems courses. 
 
