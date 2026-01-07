@@ -2,7 +2,7 @@
 title: 'Lab 0: Setup and Tooling'
 layout: lab
 released: 2026-01-06
-due: 2026-01-15
+due: 2026-01-13
 index: 0
 summary: "Set up your development environment for future labs and get familiar with tooling. "
 ---
