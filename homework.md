@@ -24,10 +24,12 @@ description: The list of homeworks for this course
 
 |Week |Title |Released |Due |
 |:---- |:----- |:-------- |:--- |
-{% for hw in site.homeworks %}
+{% for hw in site.homeworks -%}
 | {{ hw.week }}   | <a href="{{ site.url }}/{{ hw.url }}">{{ hw.title }} </a> | {{ hw.released }} | {{ hw.due }}     | 
-{% endfor %}
+{%- endfor -%}
 
+
+try another way
 
 
 
@@ -41,6 +43,7 @@ description: The list of homeworks for this course
 </ul>
 
 
+and another. 
 
 |Title  |Link  |
 |---|---|

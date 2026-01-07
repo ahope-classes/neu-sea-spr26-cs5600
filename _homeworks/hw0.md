@@ -1,6 +1,6 @@
 ---
 title: 'Homework 0: Setup'
-layout: page
+layout: homework
 week: 0
 released: 2026-01-06
 due: 2026-01-15
