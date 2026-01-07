@@ -10,10 +10,13 @@ Jan 7
   : **READING**{: .label .label-purple } OSTEP [Chapter 1](https://pages.cs.wisc.edu/~remzi/OSTEP/dialogue-threeeasy.pdf), OSTEP [Chapter 2](https://pages.cs.wisc.edu/~remzi/OSTEP/intro.pdf)
 
 Jan 7
-: &nbsp : **RELEASED**{: .label .label-green } [Lab 0]({{site.url}}{{site.baseurl}}/labs/lab0)
+:  
+: **RELEASED**{: .label .label-green } [Lab 0]({{site.url}}{{site.baseurl}}/labs/lab0)
 
 
-: &nbsp : **RELEASED**{: .label .label-green } [Lab 1]({{site.url}}{{site.baseurl}}/labs/lab1)
+:  
+: **RELEASED**{: .label .label-green } [Lab 1]({{site.url}}{{site.baseurl}}/labs/lab1)
 
 Jan 8
-:&nbsp  : **RELEASED**{: .label .label-green } [HW1]({{site.url}}{{site.baseurl}}/homeworks/hw1)
+:  
+: **RELEASED**{: .label .label-green } [HW1]({{site.url}}{{site.baseurl}}/homeworks/hw1)
