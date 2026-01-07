@@ -2,12 +2,15 @@
 layout: default
 ---
 
-<h2 class="fs-4" id="{{ page.title | slugify }}" >{{ page.title }}</h2>
+<h1 class="fs-4" id="{{ page.title | slugify }}" >{{ page.title }}</h1>
 
+
+<h3 class="fs-4">Released: {{ page.released }}</h3>
+<h3 class="fs-4">Due: {{ page.due }}</h3>
+
+<h3 class="fs-4">Summary</h3>
 
 <div class="module">
-
-<p>Due: {{ page.due }}</p>
 
 
 <p>Answer the following questions.</p>
