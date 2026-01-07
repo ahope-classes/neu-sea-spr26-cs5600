@@ -14,7 +14,7 @@ Jan 7
 : **RELEASED**{: .label .label-green } [Lab 0]({{site.url}}{{site.baseurl}}/labs/lab0)
 
 
-:  
+:  <&nbsp>
 : **RELEASED**{: .label .label-green } [Lab 1]({{site.url}}{{site.baseurl}}/labs/lab1)
 
 Jan 8
