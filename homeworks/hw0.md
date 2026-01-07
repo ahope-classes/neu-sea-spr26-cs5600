@@ -2,7 +2,6 @@
 title: 'Homework 0: Setup'
 layout: page
 week: 0
-date: 2019-04-01
 released: 2026-01-06
 due: 2026-01-15
 ---
