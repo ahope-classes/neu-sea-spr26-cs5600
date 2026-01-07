@@ -10,7 +10,7 @@ Jan 7
   : **READING**{: .label .label-purple } OSTEP [Chapter 1](https://pages.cs.wisc.edu/~remzi/OSTEP/dialogue-threeeasy.pdf), OSTEP [Chapter 2](https://pages.cs.wisc.edu/~remzi/OSTEP/intro.pdf)
 
 Jan 7
-:  test{: .label .label-purple }
+:  **test**{: .label .label-purple }Foo
   : **RELEASED**{: .label .label-green } [Lab 0]({{site.url}}{{site.baseurl}}/labs/lab0)
 
 
