@@ -1,6 +1,6 @@
 ---
 title: 'Lab 0: Setup and Tooling'
-layout: page
+layout: lab
 released: 2026-01-06
 due: 2026-01-15
 index: 0

@@ -18,5 +18,5 @@ This is an overview of the labs and timing of the labs for this semester.
 |Title |Released |Due |
 |:----- |:-------- |:--- |
 {% for lab in site.labs -%}
-| <a href="{{ site.baseurl }}/{{ lab.url }}">{{ lab.title }} </a> <br> {{ lab.summary }}| {{ lab.released }} | {{ lab.due }} | 
+| <a href="{{ site.baseurl }}{{ lab.url }}">{{ lab.title }} </a> <br> {{ lab.summary }}| {{ lab.released }} | {{ lab.due }} | 
 {% endfor %}

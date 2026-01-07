@@ -1,6 +1,6 @@
 ---
 title: 'Lab 4: Implementing Virtual Memory'
-layout: page
+layout: lab
 released: 2026-02-16
 due: 2026-03-13
 index: 1

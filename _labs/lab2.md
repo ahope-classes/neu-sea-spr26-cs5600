@@ -1,6 +1,6 @@
 ---
 title: 'Lab 2: Using the file system and system calls'
-layout: page
+layout: lab
 released: 2026-01-12
 due: 2026-01-30
 index: 2

@@ -1,6 +1,6 @@
 ---
 title: 'Lab 5: File System'
-layout: page
+layout: lab
 released: 2026-03-16
 due: 2026-04-10
 index: 1

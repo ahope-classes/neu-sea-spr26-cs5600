@@ -1,6 +1,6 @@
 ---
 title: 'Lab 1: Reviewing C'
-layout: page
+layout: lab
 released: 2026-01-07
 due: 2026-01-16
 index: 1

@@ -1,6 +1,6 @@
 ---
 title: 'Lab 3: Multi-threaded programming'
-layout: page
+layout: lab
 released: 2026-01-26
 due: 2026-02-13
 index: 3
