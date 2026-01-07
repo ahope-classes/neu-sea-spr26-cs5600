@@ -15,7 +15,7 @@ Jan 5
 
 {% for lab in site.labs %}
   <h2>
-    <a href="{{ lab.url }}">
+    <a href="{{ site.baseurl }}/{{ lab.url }}">
       {{ lab.title }} 
     </a>
   </h2>

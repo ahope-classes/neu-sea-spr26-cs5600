@@ -6,21 +6,6 @@ description: The list of homeworks for this course
 
 # Homeworks
 
-Site info: {{ site.baseurl }}
-
-
-
-
-{% for hw in site.homeworks %}
-  <h2>
-    <a href="{{ hw.url }}">
-      {{ hw.title }} 
-    </a>
-  </h2>
-  
-{% endfor %}
-
-## Homeworks in a table
 
 
 |Week |Title |Released |Due |
@@ -31,41 +16,6 @@ Site info: {{ site.baseurl }}
 
 
 
-
-
-
-try another way
-
-
-
-
-<ul>
-  {% for hw in site.homeworks %}
-    <li>
-      <a href="{{ hw.url }}">{{ hw.title }}</a>
-    </li>
-  {% endfor %}
-</ul>
-
-
-and another. 
-
-|Title  |Link  |
-|---|---|
-{% for hw in site.homeworks -%}
-{% if hw.title -%}
-|{{ hw.title }}  |[Click Here]({{ hw.url }})  |
-{% endif %}
-{%- endfor -%}
-
-
-
-| head1        | head two          | three |
-|:-------------|:------------------|:------|
-| ok           | good swedish fish | nice  |
-| out of stock | good and plenty   | nice  |
-| ok           | good `oreos`      | hmm   |
-| ok           | good `zoute` drop | yumm  |
 
 
 
