@@ -5,6 +5,7 @@ week: 1
 date: 2026-01-08
 released: 2026-01-08
 due: 2026-01-16
+summary: 'C programming.'
 ---
 
 
