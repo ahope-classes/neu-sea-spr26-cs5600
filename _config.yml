@@ -46,7 +46,6 @@ collections:
   homeworks:
     output: true
     permalink: "/:collection/:path/"
-    sort_by: week
 # Default layouts for each collection type
 defaults:
   - scope:
