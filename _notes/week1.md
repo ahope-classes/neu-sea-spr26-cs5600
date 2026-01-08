@@ -203,26 +203,29 @@ d. this class:
 
 a. communication
 
-  us-to-you:
-    - homepage, announcements: check this every day
+* us-to-you:
+    - course website
+    - Canvas announcements
+    - Teams
     - your NEU email (seldom)
 
-  you-to-us:
-    - piazza: questions that are not sensitive
-      **No valid C code on Piazza**
+* you-to-us:
+    - Teams
     - staff email list for admin/sensitive things
     - office hours
 
+
 b. components of the course:
+  - reading
   - lectures
   - labs
-  - exams
-  - reading
   - homeworks
+  - exams
+  
 
 c. lectures
   - attending: no roll call, but...will randomly pick students to answer questions
-  - notes will be published, but will be hard to understand if you miss the lecture
+  - notes will be published, but may be hard to understand if you miss the lecture
   - asking questions in class is encouraged (different from asking questions about labs; see below)
 
 d. labs:
@@ -233,57 +236,56 @@ d. labs:
     "When is early?"
     "Earlier than you think"
   - Regardless, you need to allocate time. 
-  - I'm expecting you to feel challenged by the labs. The concept
-  of "no pain, no gain" applies to learning. let's dive into
-  that...
+  - You will be challenged by the labs. The concept of "no pain, no gain" applies to learning. 
     - The building of systems cannot be learned by lecture or reading a textbook, nor by reading others' code.
     - Indeed, programming is where the real learning happens, that's the whole point
     - Independent effort is essential
     - Debugging is hard and time-consuming, but it's an essential skill
     - Only by producing working solution code yourself (without looking at others’ solution code) will you learn to build systems that solve problems you haven't seen before (the blind alleys may feel like wasted time, but they are teaching you how to avoid problems in the future, how to be independent)
-    - Don't think of labs as having a grade.
-
-      (people sometimes think that they need to get all the points,
-      they get frustrated with the staff and TAs for not telling
-      them how to get the points. But that misunderstands
-      the purpose.)
-
-      The purpose is to cause you to learn.
-        [compare to exams: personal growth rare on an exam]
-
- - we expect you think through, then ask
-   - "Here is my code. It doesn't work. Please debug." won't work.
-   - If you get a reply from a TA, and then send email 20 minutes later
+    - Don't get caught up in the grade of the lab. 
+      (It's not about getting all the points! The purpose is for you to learn. You'll grow in ways you won't grow on an exam, where you 'prove' your knowledge).
+  
+  - we expect you to think through the lab, then ask questions
+    - NOT OK: "Here is my code. It doesn't work. Please debug." 
+    - If you get a reply from a TA, and then send email 20 minutes later
      asking a closely related question, that’s probably not great too.
 
+d2. Lab Presentations
+
+* The class after a lab is due, I will randomly ask 3-7 people to present their lab and ask questions
+* This will be an informal presentation; you shouldn't prepare anything other than being able to talk about what you did
+* 
 
 e. exams:
-  - midterm and final
+  - final
   - closed book
+  - in-person, in-class, on-paper. 
   - will cover lectures, homeworks, readings, and labs
 
 f. reading & homework
-  - you may find lectures would not repeat readings.
-    That's intended (also that's the point).
-
-  [draw a figure about depth versus width of knowledge;
-   point out relations between textbooks, lectures, and labs]
+  - I don't expect to repeat the readings in lecture; rather to augment. 
+  - Homeworks are relatively short, roughly weekly assignments that are thought-based rather than programming/building-based
+  - Lowest 2 homework scores will be dropped
+  	- This is a good thing to utilize if, for example, you are travelling one week or have a conflict. 
 
 g. integrity policies:
 
-  - Here are some questions:
-
-   Looking at a classmate's solution and then coding it by yourself afterward
-   Showing your code to a classmate who has questions
-   Modifying code that you find on StackOverflow
-   Modifying code for a similar assignment that you find on GitHub
-
-  The correct answer: ALL of these are ruled out by the policy.
-
+  - Are any of the following allowed? (NO):
+  	- Looking at a classmate's solution and then coding it by yourself afterward
+   	- Showing your code to a classmate who has questions
+   	- Modifying code that you find on StackOverflow
+   	- Modifying code for a similar assignment that you find on GitHub
   - Please see the policy page, and let me say here:
+  	- The collaboration and academic integrity policy is real
+  	- please make sure that you've really thought through your question on your own before you ask for help
+  	- Exams will have questions about labs; and "If there are inexplicable discrepancies between exam and lab performance, we will overweight the exam, and possibly interview you." (see the policy page)
 
-  - The collaboration and academic integrity policy is real
-  - please make sure that you've really thought through your question on your own before you ask for help
-  - Exams will have questions about labs; and "If there are inexplicable discrepancies between exam and lab performance, we will overweight the exam, and possibly interview you." (see the policy page)
+h. Grading
 
+* Homeworks: 40%
+* Labs: 40%
+* Lab presentations: 5%  (1-3 throughout the quarter, not for every lab)
+* Final Exam: 15%
+
+In order to pass with at least 70%, the average of all labs must be 70% or greater, and you must earn 70% or greater on the final exam. 
 
