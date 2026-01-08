@@ -14,29 +14,20 @@ summary: 'Placeholder'
 1. TOC
 {:toc}
 
-1. Introduction and goals
-2. What is an operating system?
-3. Why study systems?
-4. How will we study systems? (skipped)
-5. Mechanics and admin
-
----------------------------------------------------------------------
-
 
 ## Introduction and Goals
  
- ### Introduce Staff
+### Introduce Staff
 
 
-
- ### Goals
+### Goals
 
 * think as a system developer by learning how systems work
 * learn abstractions and concepts in operating systems which are useful beyond OSes
 * learn a set of skills and tools that are useful for developing systems (such as vim/emacs, gdb, shell)
 * "no pain no gain". CS5600 is supposed to be heavy-loaded---you have five main labs to do
 
-  ### Non-goals
+#### Non-goals
 
 * not a programming class
 * not a teamwork class
@@ -66,7 +57,7 @@ Questions:
   inter-process communication, time, terminals, etc.]
 
 - Purpose of OS: provide services to user-level programs
-- Definition: An operating system creates, for processes, a machine that is easier to program than the raw hardware would be.
+- **Definition:** An operating system creates, for processes, a machine that is easier to program than the raw hardware would be.
 - this software is classically described as doing two things:
 
   * managing the resources of the machine 
@@ -171,172 +162,128 @@ debugging and improving performance.
 b. The ideas are everywhere: resource management and abstraction, for example.
 
 c. There are design trade-offs that are fundamental
+      - code must be efficient (so low-level?) ...
+      - ...but abstract/portable (so high-level?)
+      - code must be powerful (so many features?)
+      - ...but simple (thus a few composable building blocks?)
+      - another trade-off: between security and convenience
 
-      --code must be efficient (so low-level?) ...
-      --...but abstract/portable (so high-level?)
+d. new challenges that will affect you
+  - OS security and privacy remains a problem area.
+  - multicore and manycore: yes, the operating systems run, but there's an argument that perhaps the abstractions should be different  (interaction between caches and address space abstractions)
 
-      --code must be powerful (so many features?)
-      --...but simple (thus a few composable building blocks?)
-
-      --another trade-off: between security and convenience
-
-    d. new challenges that will affect you
-
-      --OS security and privacy remains a problem area.
-
-      --multicore and manycore: yes, the operating systems run,
-      but there's an argument that perhaps the abstractions
-      should be different
-      (interaction between caches and address space abstractions)
-
-    e. Skills building
-
-      --have a holistic view of a system
-      --have the confidence to address hard problems
+e. Skill-building
+  - have a holistic view of a system
+  - have the confidence to address hard problems
 
 
-[skipped]
-4. How will we study (operating) systems?
 
-    a. Learn how stuff works
-      --sometimes through case studies
+## How will we study (operating) systems?
 
-    b. Learn specific techniques
-      --time-tested solutions to hard problems
-      --avoid "hacks"
-          --examples: concurrent programming
+a. Learn how stuff works
+  - sometimes through case studies
 
-    c. Learn how to approach problems
-      --fundamental issues
-      --concept of a design space
-        --design choices vs. implementation details
+b. Learn specific techniques
+  - time-tested solutions to hard problems
+  - avoid "hacks"
+	- examples: concurrent programming
 
-    d. this class:
-      --focus on "science" part (as in "computer science") for systems
-      --lots of discussion of OS/HW boundary and process/OS boundary
-      (interfaces). Less attention to detailed implementation of OS.
-      --not a priority: details of deployed OSes (e.g., details of
-        Linux), but we may sometimes use these as examples
+c. Learn how to approach problems
+  - fundamental issues
+  - concept of a design space
+    - design choices vs. implementation details
 
-5. Mechanics and admin
+d. this class:
+  - focus on "science" part (as in "computer science") for systems
+  - lots of discussion of OS/HW boundary and process/OS boundary (interfaces). Less attention to detailed implementation of OS.
+  - not a priority: details of deployed OSes (e.g., details of
+    Linux), but we may sometimes use these as examples
 
-    a. communication
+##  Mechanics and admin
 
-      us-to-you:
-        --homepage, announcements: check this every day
-        --your NEU email (seldom)
+a. communication
 
-      you-to-us:
-        --piazza: questions that are not sensitive
-          **No valid C code on Piazza**
-        --staff email list for admin/sensitive things
-        --office hours
+  us-to-you:
+    - homepage, announcements: check this every day
+    - your NEU email (seldom)
 
-    b. components of the course:
-      --lectures
-      --labs
-      --exams
-      --reading
-      --homeworks
+  you-to-us:
+    - piazza: questions that are not sensitive
+      **No valid C code on Piazza**
+    - staff email list for admin/sensitive things
+    - office hours
 
-    c. lectures
+b. components of the course:
+  - lectures
+  - labs
+  - exams
+  - reading
+  - homeworks
 
-      --attending: no roll call, but...will randomly pick students
-      to answer questions
+c. lectures
+  - attending: no roll call, but...will randomly pick students to answer questions
+  - notes will be published, but will be hard to understand if you miss the lecture
+  - asking questions in class is encouraged (different from asking questions about labs; see below)
 
-      --notes will be published, but will be hard to understand if
-      you miss the lecture
+d. labs:
+  - key piece of the course
+  - labs could/should actually be fun 
+  - often: not much code to write (relatively speaking), but lots to learn!
+  - "Start early"
+    "When is early?"
+    "Earlier than you think"
+  - Regardless, you need to allocate time. 
+  - I'm expecting you to feel challenged by the labs. The concept
+  of "no pain, no gain" applies to learning. let's dive into
+  that...
+    - The building of systems cannot be learned by lecture or reading a textbook, nor by reading others' code.
+    - Indeed, programming is where the real learning happens, that's the whole point
+    - Independent effort is essential
+    - Debugging is hard and time-consuming, but it's an essential skill
+    - Only by producing working solution code yourself (without looking at others’ solution code) will you learn to build systems that solve problems you haven't seen before (the blind alleys may feel like wasted time, but they are teaching you how to avoid problems in the future, how to be independent)
+    - Don't think of labs as having a grade.
 
-      --asking questions in class is encouraged
-        (different from asking questions about labs; see below)
+      (people sometimes think that they need to get all the points,
+      they get frustrated with the staff and TAs for not telling
+      them how to get the points. But that misunderstands
+      the purpose.)
 
-    d. labs:
+      The purpose is to cause you to learn.
+        [compare to exams: personal growth rare on an exam]
 
-      --key piece of the course
-
-      --labs could/should actually be fun 
-
-      --often: not much code to write (relatively speaking),
-          but lots to learn!
-
-      --"Start early"
-        "When is early?"
-        "Earlier than you think"
-
-      --Regardless, you need to allocate time. 
-
-      --I'm expecting you to feel challenged by the labs. The concept
-      of "no pain, no gain" applies to learning. let's dive into
-      that...
-
-        --The building of systems cannot be learned by lecture or
-        reading a textbook, nor by reading others' code.
-
-        --Indeed, programming is where the real learning happens,
-        that's the whole point
-
-        --Independent effort is essential
-
-        --Debugging is hard and time-consuming, but it's an
-        essential skill
-
-        --Only by producing working solution code yourself (without
-        looking at others’ solution code) will you learn to build
-        systems that solve problems you haven't seen before
-          (the blind alleys may feel like wasted time, but they
-          are teaching you how to avoid problems in the future,
-          how to be independent)
-
-        --Don't think of labs as having a grade.
-
-          (people sometimes think that they need to get all the points,
-          they get frustrated with the staff and TAs for not telling
-          them how to get the points. But that misunderstands
-          the purpose.)
-
-          The purpose is to cause you to learn.
-            [compare to exams: personal growth rare on an exam]
-
-     --we expect you think through, then ask
-       --"Here is my code. It doesn't work. Please debug." won't work.
-       --If you get a reply from a TA, and then send email 20 minutes later
-         asking a closely related question, that’s probably not great too.
+ - we expect you think through, then ask
+   - "Here is my code. It doesn't work. Please debug." won't work.
+   - If you get a reply from a TA, and then send email 20 minutes later
+     asking a closely related question, that’s probably not great too.
 
 
-    e. exams:
-      -- midterm and final
-      -- closed book
-      -- will cover lectures, homeworks, readings, and labs
+e. exams:
+  - midterm and final
+  - closed book
+  - will cover lectures, homeworks, readings, and labs
 
-    f. reading & homework
+f. reading & homework
+  - you may find lectures would not repeat readings.
+    That's intended (also that's the point).
 
-      --you may find lectures would not repeat readings.
-        That's intended (also that's the point).
+  [draw a figure about depth versus width of knowledge;
+   point out relations between textbooks, lectures, and labs]
 
-      [draw a figure about depth versus width of knowledge;
-       point out relations between textbooks, lectures, and labs]
+g. integrity policies:
 
-    g. integrity policies:
+  - Here are some questions:
 
-      --Here are some questions:
+   Looking at a classmate's solution and then coding it by yourself afterward
+   Showing your code to a classmate who has questions
+   Modifying code that you find on StackOverflow
+   Modifying code for a similar assignment that you find on GitHub
 
-       Looking at a classmate's solution and then coding it by yourself afterward
-       Showing your code to a classmate who has questions
-       Modifying code that you find on StackOverflow
-       Modifying code for a similar assignment that you find on GitHub
+  The correct answer: ALL of these are ruled out by the policy.
 
-      The correct answer: ALL of these are ruled out by the policy.
+  - Please see the policy page, and let me say here:
 
-      --Please see the policy page, and let me say here:
-
-       --The collaboration and academic integrity policy is real
-
-       --please make sure that you've really thought through your
-       question on your own before you ask for help
-
-       --Exams will have questions about labs; and
-       "If there are inexplicable discrepancies between exam and lab
-       performance, we will overweight the exam, and possibly
-       interview you." (see the policy page)
+  - The collaboration and academic integrity policy is real
+  - please make sure that you've really thought through your question on your own before you ask for help
+  - Exams will have questions about labs; and "If there are inexplicable discrepancies between exam and lab performance, we will overweight the exam, and possibly interview you." (see the policy page)
 
 
