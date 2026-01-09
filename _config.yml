@@ -19,7 +19,7 @@ description: Systems for Northeastern University, Seattle, Spr 2026
 author: Adrienne Slaughter
 baseurl: '/neu-sea-spr26-cs5600' # the subpath of your site, e.g. /blog
 url: 'https://ahope-classes.github.io' # the base hostname & protocol for your site, e.g. http://example.com
-exclude: ["Gemfile", "Gemfile.lock", "LICENSE"]
+# exclude: ["Gemfile", "Gemfile.lock", "LICENSE"]
 
 # Theme settings
 remote_theme: just-the-docs/just-the-docs@v0.11.1
@@ -95,3 +95,22 @@ compress_html:
 liquid:
   error_mode: strict
   strict_filters: true
+
+callouts:
+  highlight:
+    color: yellow
+  important:
+    title: Important
+    color: blue
+  new:
+    title: New
+    color: green
+  note:
+    title: Note
+    color: purple
+  warning:
+    title: Warning
+    color: red
+  exercise:
+    title: Exercise
+    color: purple
