@@ -51,7 +51,7 @@ You should now have the `lab1` directory that you didn't have before. This might
 
 **Workflow.** We have configured Docker so that the directory from which you run `./CS5600-run-docker` on your host machine (usually this is `CS5600`) shows up in Docker as `CS5600-labs`. This means that you can use your preferred IDE or editor on your host machine to edit code while compiling, running, and testing inside Docker. Depending on your setup, it may be helpful for you to have at least two windows up (one for editing and one with Docker).
 
-**Programming style.** In this and subsequent labs, you will be graded for style. We will deduct up to 20% of total lab points for poor style based on our subjective evaluation. Please read this style guide.
+**Programming style.** In this and subsequent labs, you will be graded for style. We will deduct up to 20% of total lab points for poor style based on our subjective evaluation. Please read [this style guide](https://cs61.seas.harvard.edu/site/2022/Style/).
 
 
 

@@ -115,7 +115,7 @@ $ chmod go+r ~/.ssh/*.pub  # add back group and world readability for public key
 
 ### Configure Git
 
-You should also tell your `git` installation your name and email, if you haven’t already. This will ensure that you are recorded as the author of your code. For the `user.email` option, use your NYU email address:
+You should also tell your `git` installation your name and email, if you haven’t already. This will ensure that you are recorded as the author of your code. For the `user.email` option, use your Northeastern email address:
 
 ```
 git config --global user.name "FIRST_NAME LAST_NAME"
@@ -136,7 +136,7 @@ Here’s how it should work:
 4. Accept the assignment.
 5. Refresh the page until the assignment repository is ready.
 
-These steps should create a new repository for your. For instance, if your username name is `foomoo67`, you should now have a repository on GitHub called `neu-sea-cs5600/labs-spr26-002-foomoo67`.
+These steps should create a new repository for your. For instance, if your username name is `foomoo67`, you should now have a repository on GitHub called `ahope-classes/cs5600-foomoo67`.
 
 **Note: GitHub Classroom may tell you to create a new repository on the command line, create a new branch, and make your first commit with a README file. _Do not do this._ It will introduce merge conflicts later on.**
 
@@ -146,16 +146,16 @@ Here’s how to get a local clone of your private repo on your machine. Assuming
 - **Clone “your” lab repo**. Run the next command in a place on your computer where you fill find it. This will set up `cs5600` as THE directory where you do your labs work, so make sure it’s somewhere you can get to easily:
     
 ```sh
-$ git clone git@github.com:neu-sea-cs5600/labs-spr26-002-<Your-GitHub-Username>.git cs5600
+$ git clone git@github.com:ahope-classes/cs5600-<Your-GitHub-Username>.git cs5600
 Cloning into ....
 warning: You appear to have cloned an empty repository.
 ```
     
-    Note that the `git@github.com:....` can be obtained on GitHub by visiting a link like `https://github.com/neu-sea-cs5600/labs-spr26-002-<Your-GitHub-Username>`, and then clicking the “Clone or download” button. You want to clone using SSH, not HTTPS, so you might need to click “Use SSH”.
-    
-    At this point, all you have is an empty repository, so you need to get the lab files. We’ll do that next.
-    
-    **Troubleshooting:** If you get “The connection timed out”, see the Git FAQ below.
+Note that the `git@github.com:....` can be obtained on GitHub by visiting a link like `https://github.com/ahope-classes/cs5600-<Your-GitHub-Username>`, and then clicking the “Clone or download” button. **You want to clone using SSH**, not HTTPS, so you might need to click “Use SSH”.
+
+At this point, all you have is an empty repository, so you need to get the lab files. We’ll do that next.
+
+**Troubleshooting:** If you get “The connection timed out”, see the Git FAQ below.
     
 - **Set up the upstream repo**: The lab skeleton code is kept in the repo `https://github.com/ahope-classes/neu-sea-spr26-cs5600-labs`, managed by the course staff. Therefore, the first thing you need to do is to set up your own lab repo to track the changes made in the `labs` repo. In the git world, `neu-sea-spr26-cs5600-labs` would be the “upstream” repo from which changes should “flow” into your own lab repo.
     
@@ -163,15 +163,15 @@ warning: You appear to have cloned an empty repository.
     
 ```
 $ cd cs5600
-$ git remote add upstream https://github.com/XXX/labs.git
+$ git remote add upstream git remote add upstream https://github.com/ahope-classes/neu-sea-spr26-cs5600-labs.git
 $ git remote -v
-origin git@github.com:XXX/labs-spr26-002-<YourGithubUsername>.git (fetch)
-origin git@github.com:XXX/labs-spr26-002-<YourGithubUsername>.git (push)
-upstream https://github.com/XXX/labs.git (fetch)
-upstream https://github.com/XXX/labs.git (push)
+origin git@github.com:ahope-classes/cs5600-<YourGithubUsername>.git (fetch)
+origin git@github.com:ahope-classes/cs5600-<YourGithubUsername>.git (push)
+upstream https://github.com/ahope-classes/neu-sea-spr26-cs5600-labs.git (fetch)
+upstream https://github.com/ahope-classes/neu-sea-spr26-cs5600-labs.git (push)
 ```
     
-    Now fetch the commits from upstream:
+Now fetch the commits from upstream:
     
 ```
 $ git fetch upstream
@@ -181,7 +181,7 @@ From https://github.com/XXX/labs
 * [new branch]      main       -> upstream/main
 ```
     
-    Now the commits on the upstream’s main branch are on your machine. Now you need to create a local branch to track the upstream’s branch:
+Now the commits on the upstream’s main branch are on your machine. Now you need to create a local branch to track the upstream’s branch:
     
 ```
 $ git checkout -b main upstream/main
@@ -189,7 +189,7 @@ Branch 'main' set up to track remote branch 'main' from 'upstream'.
 Switched to a new branch 'main'
 ```
     
-    Now you can browse your local copy of the repo:
+Now you can browse your local copy of the repo:
     
 ```sh
 ls
@@ -201,7 +201,7 @@ ls
 $ git push origin main
 Enumerating objects: 9, done.
 ....
-To github.com:XXX/labs-spr26-YOURUSERNAME.git
+To github.com:XXX/cs5600-YOURUSERNAME.git
  * [new branch]      main -> main
 ```
     
@@ -213,11 +213,12 @@ git diff <commit_name> upstream/main
 git merge upstream/main
 ```
     
-    You should do this periodically. And we will remind you to fetch upstream on Campuswire if we make changes/bug-fixes to the labs.
+You should do this periodically. And we will remind you to fetch upstream on Piazza if we make changes/bug-fixes to the labs.
+
+(Above, `commit_name` is the name of the former head of `upstream/main`. It can be read out after you type `git fetch`.)
     
-    (Above, `commit_name` is the name of the former head of `upstream/main`. It can be read out after you type `git fetch`.)
-    
-- **Examining git history**: It’s often helpful to view/browse git history. GitHub can help with this (visit `https://github.com/XXX/labs-spr26-YOURUSERNAME`, and click on the most recent commit id), but of course it can only display commits that are pushed to GitHub. To look at your local repository’s state, you can use `git log`. `git log -p` is particularly handy (displays the differences introduced by every commit).
+- **Examining git history**: It’s often helpful to view/browse git history. GitHub can help with this (visit `https://github.com/ahope-classes/cs5600-YOURUSERNAME`, and click on the most recent commit id), but of course it can only display commits that are pushed to GitHub. To look at your local repository’s state, you can use `git log`. `git log -p` is particularly handy (displays the differences introduced by every commit).
+
 ### Saving changes while you are working on labs
 
 As you modify the skeleton files to complete the labs, you should frequently save your work to protect against laptop failures and other unforeseen troubles, and to create “known good” states. You save the changes by first “committing” them to your local lab repo and then “pushing” those changes to the repo stored on github.com
@@ -262,7 +263,7 @@ The labs for this class are intended to be run on a Linux machine. To help make 
 Docker has many advantages. It can start, stop, and edit virtual machines very quickly. In addition, each virtual machine is small, and ocupies little space on your machine. Also, Docker makes it easy to edit your code in your home environment using your preferred IDE or editor, but compile and run it on a Linux host. The disadvantage of Docker, compared to a traditional virtual machine, is that it’s less user-friendly: you have to type strange commands to get it working, and you have to run all programs exclusively in the terminal (no graphical environments).
 
 ### Creating CS5600 Docker
-We assume that you have cloned your XXX repository into your local machine, as described [earlier](https://XXX).
+We assume that you have cloned your https://github.com/ahope-classes/neu-sea-spr26-cs5600-lab repository into your local machine, as described earlier.
 
 To build your Docker environment:
 1. Launch Docker. On Mac and Windows, there should be a visible whale icon in the notification area (on Mac, the status menu in the upper right toolbar; on Windows, the system tray in the lower right of the screen).
