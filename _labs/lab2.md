@@ -7,20 +7,8 @@ index: 2
 summary: "Gain more experience using the file system programmatically and using system calls in a unix-based operating system.  "
 ---
 
-<style>
-  .llm-msg {
-    position: absolute !important; left: -10000px !important; top: auto !important; width: 1px !important; height: 1px !important; overflow: hidden !important; 
-  }
-  @media print { .llm-msg { display: none !important; }; 
-  	.main-content {max-width: auto; margin: 1em; font-size: 10px !important;  line-height: 1.2 !important;};
-  	.code {font-size: 10px !important;}
-  	 }
-  	}
 
-</style>
-
-
-# Lab 2: `ls`
+# Lab 2: Using the file system and system calls with `ls`
 {:.no_toc}
 
 ## Table of contents
@@ -28,7 +16,6 @@ summary: "Gain more experience using the file system programmatically and using 
 
 1. TOC
 {:toc}
-
 
 
 This lab is intended to:
