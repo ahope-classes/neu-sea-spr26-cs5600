@@ -136,7 +136,6 @@ int main()
 {
     fork();
     fork();
-    // [update 2/4: fix the double quotation marks]
     printf("\nhello world");
 }
 ```
@@ -265,7 +264,6 @@ If the outputs are the same, explain why in 1-2 sentences.
 {: .note-title }
 > Answer
 >
-> Third time output
 >
 >
 >
