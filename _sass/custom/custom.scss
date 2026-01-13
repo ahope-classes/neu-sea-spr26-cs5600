@@ -14,47 +14,6 @@ code {
   border: none;
 }
 
-.highlight {
-  font-size: 14px;
-  padding: 0.2em 0.4em;
-  border: none;
-  background: $grey-lt-300;
-}
-
-.language-sh {
-  font-size: 14px;
-  padding: 0.2em 0.4em;
-  border: none;
-  background: $grey-lt-300;
-}
-
-listingblock {
-  font-size: 14px;
-  padding: 0.2em 0.4em;
-  border: none;
-  background: $grey-lt-300;
-}
-
-pre .figure {
-  background: $grey-lt-300;
-}
-
-pre .class {
-  background: $grey-lt-300;
-}
-
-pre .highlight {
-  background: $grey-lt-300;
-}
-
-pre.highlight {
-  background: $grey-lt-300;
-}
-
-code.highlighter-rouge {
-  background: $grey-lt-300;
-}
-
 iframe {
   max-width: 100%;
 }
@@ -68,10 +27,6 @@ summary {
 
   width: 100%;
 }
-
-.llm-msg {
-    position: absolute !important; left: -10000px !important; top: auto !important; width: 1px !important; height: 1px !important; overflow: hidden !important; 
-  }
 
 .main-content {
   dl {
@@ -93,37 +48,4 @@ summary {
       margin-top: 1em;
     }
   }
-
 }
-
-// Print-only styles.
-@media print {
-  .side-bar {
-    display: none;
-  }
-
-  .page-header {
-    display: none;
-  }
-
-  .main-content {
-    max-width: auto;
-    margin: 1em;
-    font-size: 10px;
-    line-height: 1.2;
-  }
-
-  .llm-msg { 
-    display: none !important; 
-  } 
-    
-  .main-content {
-    max-width: auto; margin: 1em; font-size: 10px !important;  line-height: 1.2 !important;
-  }
-  
-  .code {font-size: 10px !important;}
-  
-  code {font-size: 10px !important;}
-    
-}
-
