@@ -14,6 +14,47 @@ code {
   border: none;
 }
 
+.highlight {
+  font-size: 14px;
+  padding: 0.2em 0.4em;
+  border: none;
+  background: $grey-lt-300;
+}
+
+.language-sh {
+  font-size: 14px;
+  padding: 0.2em 0.4em;
+  border: none;
+  background: $grey-lt-300;
+}
+
+listingblock {
+  font-size: 14px;
+  padding: 0.2em 0.4em;
+  border: none;
+  background: $grey-lt-300;
+}
+
+pre .figure {
+  background: $grey-lt-300;
+}
+
+pre .class {
+  background: $grey-lt-300;
+}
+
+pre .highlight {
+  background: $grey-lt-300;
+}
+
+pre.highlight {
+  background: $grey-lt-300;
+}
+
+code.highlighter-rouge {
+  background: $grey-lt-300;
+}
+
 iframe {
   max-width: 100%;
 }
@@ -53,12 +94,6 @@ summary {
     }
   }
 
-  llm_aha_test {
-    background-color: red;
-    position: absolute !important;
-    left: -100000px !important;
-    top: auto !important;
-  }
 }
 
 // Print-only styles.

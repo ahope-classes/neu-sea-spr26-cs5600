@@ -10,35 +10,56 @@ summary: 'Working with processes. '
 
 ## Question 1
 
-Read handout week.3a (https://XXX/22spring/notes/handout_w03a.pdf)
-and answer the questions below.
+Reference the handout from class in Week 2 ([Linked here after class](https://XXX/handout.pdf)) and answer the questions below.
 
 
 ### Question 1A
 
-What does `0` in `wait(0)` (line 23) mean? (1 point)
+#### 2 pts
+
+What does `0` in `wait(0)` (line 23) mean? 
+
+{: .note-title }
+> Answer
+>
+>
+>
+>
+>
+>
+>
+> .
+
 
 ### Question 1B
-
-Read "6. Commentary" and copy-paste it below.  (1 point)
-
-### Question 1C
+#### 4 pts
 
 Why do lines 143 and 144 close the `fdarray`? In other words, what can go
-wrong without closing them? (2 points)
+wrong without closing them? 
+
+{: .note-title }
+> Answer
+>
+>
+>
+>
+>
+>
+>
+> .
 
 
 
 ## Question 2: Play with `fork`
 
-  -- below are valid code.
-  -- header files are omitted.
-  -- to see which header files to include, use `$ man <function_name>`
-     (e.g., `$ man fork` to see which header files define `fork`.)
+* The code below is valid
+* The header files are omitted
+	* To see which header files to include, use `$ man <function_name>` (e.g., `$ man fork` to see which header files define `fork`.)
 
 ### Question 2A 
+#### 4 pts
 
-Run the following code for three times. (2 points)
+Run the following code for three times. 
 
 ```c
 int main() {
@@ -50,32 +71,65 @@ int main() {
 
 Write down the outputs below and answer the question.
 
-Answer:
 
-  first time output:
-  """
-  // write your output here
+{: .note-title }
+> Answer
+>
+> First time output
+>
+>
+>
+>
+>
+>
+> .
 
-  """
 
-  second time output:
-  """
-  // write your output here
+{: .note-title }
+> Answer
+>
+> Second time output
+>
+>
+>
+>
+>
+>
+> .
 
-  """
 
-  third time output:
-  """
-  // write your output here
+{: .note-title }
+> Answer
+>
+> Third time output
+>
+>
+>
+>
+>
+>
+> .
 
-  """
-
+ 
 If "hello world" appear twice in any outputs, explain why in 1-2 sentences.
 (write "CONDITION FALSE" if the "hello world" only appear once.)
 
 
+{: .note-title }
+> Answer
+>
+>
+>
+>
+>
+>
+>
+> .
 
- Run the following code for three times. (2 points)
+
+### Question 2B
+#### 4 pts
+ Run the following code for three times. 
 
 ```c
 int main()
@@ -89,32 +143,63 @@ int main()
 
 Write down the outputs below and answer the question.
 
-Answer:
+{: .note-title }
+> Answer
+>
+> First time output
+>
+>
+>
+>
+>
+>
+> .
 
-first time output:
-"""
-// write your output here
+{: .note-title }
+> Answer
+>
+> Second time output
+>
+>
+>
+>
+>
+>
+> .
 
-"""
 
-second time output:
-"""
-// write your output here
+{: .note-title }
+> Answer
+>
+> Third time output
+>
+>
+>
+>
+>
+>
+> .
 
-"""
-
-third time output:
-"""
-// write your output here
-
-"""
 
 If the outputs are different, why? Explain in 1-2 sentences. 
 (write "CONDITION FALSE" if the outputs are the same)
 
+{: .note-title }
+> Answer
+>
+>
+>
+>
+>
+>
+>
+> .
 
 
-  1. Run the following code for three times. (2 points)
+### Question 2C 
+#### 4 pts
+
+Run the following code for three times. 
 
 ```c
 int main() {
@@ -134,26 +219,57 @@ int main() {
 
 Write down the outputs below and answer the question.
 
-Answer:
 
-first time output:
-"""
-// write your output here
+{: .note-title }
+> Answer
+>
+> First time output
+>
+>
+>
+>
+>
+>
+> .
 
-"""
 
-second time output:
-"""
-// write your output here
+{: .note-title }
+> Answer
+>
+> Second time output
+>
+>
+>
+>
+>
+>
+> .
 
-"""
 
-third time output:
-"""
-// write your output here
-
-"""
+{: .note-title }
+> Answer
+>
+> Third time output
+>
+>
+>
+>
+>
+>
+> .
 
 If the outputs are the same, explain why in 1-2 sentences.
 (write "CONDITION FALSE" if the outputs are different)
 
+
+{: .note-title }
+> Answer
+>
+> Third time output
+>
+>
+>
+>
+>
+>
+> .
