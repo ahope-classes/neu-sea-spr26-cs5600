@@ -55,24 +55,49 @@ Communication between instructor, teaching assistants, and students is in Englis
 
 * E-mail via the Canvas distribution list
 * Announcements posted on Canvas
-* Notes and clarifications posted on Teams
-* Private chats on Teams
+* Notes and clarifications posted on Piazza
+* Private chats on Piazza
 
-Students are responsible for joining the class group on Teams and for ensuring that all email addresses are properly configured. Missing an email that is sent to Spam or not enrolling in Teams is not an excuse for any missed work or information.
+{: .note }
+>
+> Update on 14 Jan 2026: 
+> 
+> Per discussion with the class, we will be using Piazza and Zoom, not Teams. 
+>
 
-You must check your Teams messages daily. We recommend that you install the Teams up on your mobile devices (phone, tablet) and turn on notifications so that you do not miss important messages or announcements.
+Students are responsible for joining the class group on Piazza and for ensuring that all email addresses are properly configured. Missing an email that is sent to Spam or not enrolling in Piazza is not an excuse for any missed work or information.
 
-To contact the instructor and the teaching assistant use Microsoft Teams as that ensures that communication is delivered and does not accidentally get filtered into “spam” or “junk” folders.
+To contact the instructor and the teaching assistant use Piazza and send a note directly to the teaching team (as opposed to a public note on Piazza where all students can see). 
 
 ## Office Hours
 
-* Office Hourse will be held via Zoom or Teams 
+* Office Hours will be held via Zoom; link available on Canvas. 
 * Adrienne's OH will be Friday, 3-5pm
     * This time may change if it helps students better
     * OH may always be scheduled individually by contacting the instructor directly
 
 ## Schedule and Agenda
 
+### Topics
+
+This is a rough timeline of topics covered throughout the semester. This is subject to small changes; any changes will be reflected on the course website and should take priority over this list. 
+
+* Week 1: Intro to Course and Systems in General
+* Week 2: Processes
+* Week 3: Scheduling
+* Week 4: Concurrency and Synchronization
+* Week 5: More Concurrency and Synchronization
+* Week 6: Complete Concurrency; Introduce Virtual Memory
+* Week 7: More Virtual Memory
+* Week 8: Complete Virtual Memory; Review first half of the semester
+* Week 9: SPRING BREAK-- No class
+* Week 10: Input/Output
+* Week 11: File Systems
+* Week 12: More File Systems
+* Week 13: Intro to Security
+* Week 14: Complete Security
+* Week 15: Wrap-up, Final Review
+* Week 16: Final Exam
 
 ## Grading/Learning Assessment
 
@@ -142,9 +167,12 @@ Interaction occurs primarily through the University’s Microsoft Teams platform
 * Respond or comment on other students’ posts
 * Join the live recitation sessions or watch the recording 
 
- ==Copying from the web or third parties without citation on any graded item is an academic integrity violations and results in a grade of 0 and a potential referral to OSCCR.==
 
-Posts, questions, or responses on Teams are not graded and direct copying even without citation is allowed – but for those posts only.
+{: .note }
+>
+> Copying from the web or third parties without citation on any graded item is an academic integrity violations and results in a grade of 0 and a potential referral to OSCCR.
+
+Posts, questions, or responses on Piazza are not graded and direct copying even without citation is allowed – but for those posts only.
 
 ## Code of Conduct
 As a student in this course, students are expected conduct themselves at all times in a professional and respectful manner towards fellow students, instructors, teaching assistants, observers, graders, and anyone within or outside the course, College, University, and the community-at-large.
