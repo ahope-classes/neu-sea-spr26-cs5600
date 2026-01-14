@@ -197,6 +197,15 @@ Egregious violations of the code of conduct may result in disciplinary actions, 
 ## Language of Instruction
 The language of instruction is (US) English. All materials are in English and all communication between and among students and instructors must be in English. All submissions and comments must be in English. All computer settings and messages must be in English.
 
+## Accommodations
+
+If you require any special considerations to support your learning, visit the DRC. Should the DRC approve accommodations, provide the instructor with a letter so that appropriate adjustments can be made as long as they are feasible and do not affect other students negatively. Unfortunately, we cannot provide any special accommodations unless there is a letter from the DRC. We do require that you provide us with 24 hour notification
+if you need extended time for a quiz, an assignment, or the final exam; an email to the instructor with a message on Piazza is sufficient. Extensions past the date at which solutions are published or discussed cannot be accommodated.
+
+### Religious Accommodation
+
+For information on the university’s procedures for requesting a reasonable accommodation for a religious holiday, please see https://studentlifeseattle.sites.northeastern.edu/seattle-campus-resources/
+
 
 ## Academic Integrity Policy
 
