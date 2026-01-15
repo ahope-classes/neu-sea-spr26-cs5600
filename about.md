@@ -204,7 +204,7 @@ if you need extended time for a quiz, an assignment, or the final exam; an email
 
 ### Religious Accommodation
 
-For information on the university’s procedures for requesting a reasonable accommodation for a religious holiday, please see https://studentlifeseattle.sites.northeastern.edu/seattle-campus-resources/
+For information on the university’s procedures for requesting a reasonable accommodation for a religious holiday, please see [https://studentlifeseattle.sites.northeastern.edu/seattle-campus-resources/](https://studentlifeseattle.sites.northeastern.edu/seattle-campus-resources/). 
 
 
 ## Academic Integrity Policy

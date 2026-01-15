@@ -4,7 +4,7 @@ title: 'Week 1: Processes'
 
 
 Jan 7
-: **Lecture**{: .label .label-yellow } Class logistics, Intro to Systems. 
+: **Lecture**{: .label .label-yellow } Class logistics, Intro to Systems. ([Notes]({{site.url}}{{site.baseurl}}/notes/week1))
   : **READING**{: .label .label-purple } OSTEP [Chapter 1](https://pages.cs.wisc.edu/~remzi/OSTEP/dialogue-threeeasy.pdf), OSTEP [Chapter 2](https://pages.cs.wisc.edu/~remzi/OSTEP/intro.pdf)
 
 Jan 7
