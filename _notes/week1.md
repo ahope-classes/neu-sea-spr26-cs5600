@@ -217,7 +217,7 @@ a. communication
 
 b. components of the course:
   - reading
-  - lectures
+  - lectures 
   - labs
   - homeworks
   - exams
