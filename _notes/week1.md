@@ -1,7 +1,7 @@
 ---
-title: 'Notes 0'
+title: 'Notes 1'
 layout: page
-summary: 'Placeholder'
+summary: 'Course and Systems Intro '
 ---
 
 
