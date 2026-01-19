@@ -17,7 +17,9 @@ Reference the handout from class in Week 2 ([Linked here after class](https://XX
 
 #### 2 pts
 
-What does `0` in `wait(0)` (line 23) mean? 
+Refer to the simple shell codebox (https://ahope-classes.github.io/neu-sea-spr26-cs5600/notes/week2/#a-very-simple-shell).
+
+What does `0` in `wait(0)` mean? 
 
 {: .note-title }
 > Answer
@@ -34,8 +36,16 @@ What does `0` in `wait(0)` (line 23) mean?
 ### Question 1B
 #### 4 pts
 
-Why do lines 143 and 144 close the `fdarray`? In other words, what can go
-wrong without closing them? 
+Refer to the Putting it all together codebox (https://ahope-classes.github.io/neu-sea-spr26-cs5600/notes/week2/#putting-it-all-together). 
+
+Why does the parent process close the two file descriptors in `fdarray`? In other words, what can go wrong without closing them? 
+
+Before looking up answers to this question, think it through given what we know: 
+
+* The `fdarray` contains 2 file descriptors
+* The `pipe` command creates the pipe, populating `fdarray` with the two ends of the pipe
+   * Feel free to use `man pipe2` on the command line in your class Docker to understand more
+* One process is the child process, one is the parent process
 
 {: .note-title }
 > Answer
