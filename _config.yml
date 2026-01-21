@@ -114,3 +114,14 @@ callouts:
   exercise:
     title: Exercise
     color: purple
+  definition:
+    title: Definition
+    color: purple
+  question:
+    title: Question
+    color: yellow
+
+mermaid:
+  # Version of mermaid library
+  # Pick an available version from https://cdn.jsdelivr.net/npm/mermaid/
+  version: "11.12.2"
