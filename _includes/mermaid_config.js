@@ -1,3 +1,4 @@
 {
-  theme: "forest"
+  theme: "neutral"
+  look: handDrawn
 }

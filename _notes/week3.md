@@ -29,10 +29,6 @@ summary: 'Approaches to Scheduling Processes'
 
 # Weekly Summary and Where are we?
 
-## Notes/Announcements
-
-* I'll be putting PDFs of my notes in Canvas before class 
-* ... ? 
 
 ## Topics
 
@@ -74,6 +70,8 @@ High-level problem: operating system has to decide which process (or thread) to 
 
 This state diagram shows the lifecycle of a process. 
 
+
+
 <pre class="mermaid">
 ---
 title: Process State Diagram
@@ -82,7 +80,7 @@ config:
   theme: neutral
 ---
 stateDiagram-v2
-	direction LR
+  direction LR
     [*] --> New
     New --> Ready
 
@@ -94,7 +92,6 @@ stateDiagram-v2
     Waiting --> Ready: (II) I/O Completion or Signal
     Terminated --> [*]
 </pre>
-
 
 
 The kernel can make scheduling decisions about a process during the following transitions: 
@@ -135,7 +132,7 @@ The kernel can make scheduling decisions about a process during the following tr
 		- other kernel data such as the page table, process table, file table, ... 
 - **Context switch**: OS stops the running process and  switches to another ready process.
 
-<!-- <img src="../../assets/images/notes/week3/context_switch.png" alt="Context Switching" width="300"/> -->
+
 <img src="../../assets/images/notes/week3/context_switch_anatomy.png" alt="Context Switching more detail" width="400"/>
 
 
