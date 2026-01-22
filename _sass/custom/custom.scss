@@ -127,3 +127,35 @@ summary {
     
 }
 
+
+.scheduling-table {
+  border-collapse: collapse;
+  width: unset;
+  min-width: 1% !important;
+  margin: 1em 0;
+}
+
+.scheduling-table table {
+  border-collapse: collapse;
+  width: unset;
+  min-width: 1% !important;
+  margin: 1em 0;
+}
+
+.scheduling-table th,
+.scheduling-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+  min-width:2px;
+}
+
+.scheduling-table th {
+  background-color: #f4f4f4;
+}
+
+
+.scheduling-table tr:last-of-type th, 
+  tbody tr:last-of-type 
+  td 
+{ border-bottom: 1px solid #ccc; }
