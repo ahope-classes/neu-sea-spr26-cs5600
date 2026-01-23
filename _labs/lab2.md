@@ -133,7 +133,7 @@ Now that you have ensured that you can build the project, you can start coding. 
 
 **Compiler warnings.** Make sure that, when your code is compiled, the compiler produces no warnings. (Example warnings are given above [“variable set but not used”, etc.]; these happen because the code isn’t fleshed out.) We will be deducting points for compile-time warnings.
 
-**Programming style.** In this and subsequent labs, you will be graded for style. We will deduct up to 20% of total lab points for poor style based on our subjective evaluation. Please read [this style guide](XXX).
+**Programming style.** In this and subsequent labs, you will be graded for style. We will deduct up to 20% of total lab points for poor style based on our subjective evaluation. Please read [this style guide](https://cs61.seas.harvard.edu/site/2019/Style/).
 
 ### Argument parsing
 Look at the `main()` function. `main()` uses `getopt_long()` for argument parsing. You will need to understand this function, which requires finding and reading documentation. To start, let us use the `apropos` command to find where the documentation for `getopt_long` lives. 
@@ -535,7 +535,7 @@ Above, it can be helpful to strip away the pipeline phases. So you would start w
 
 Note you can simplify the `./mktest.sh` command by doing `./mktest.sh /tmp/test`, but the `./mktest.sh` script will refuse to run if the directory specified as an argument already exists. You can delete the directory once done using `rm -r` as usual. If you do this, then replace `${MY_TEST_DIR}` in the pipeline with `/tmp/test`.
 
-**Reading diffs.** The format of a text diff is very common on Unix-like systems. If it is unfamiliar to you, we strongly suggest gaining fluency. [Here](XXX) is a reference.
+**Reading diffs.** The format of a text diff is very common on Unix-like systems. If it is unfamiliar to you, we strongly suggest gaining fluency. [Here](https://www.gnu.org/software/diffutils/manual/html_node/Detailed-Normal.html) is a reference.
 
 ## Extra Credit
 We have a few extra credit options for this assignment:
