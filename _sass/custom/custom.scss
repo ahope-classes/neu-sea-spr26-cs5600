@@ -121,9 +121,15 @@ summary {
     max-width: auto; margin: 1em; font-size: 10px !important;  line-height: 1.2 !important;
   }
   
-  .code {font-size: 12px !important;}
+  .code {
+    font-size: 12px !important;
+    background: $grey-lt-100;
+    }
   
-  code {font-size: 12px !important;}
+  code {
+    font-size: 12px !important;
+    background: $grey-lt-100;
+    }
     
 }
 
@@ -159,3 +165,12 @@ summary {
   tbody tr:last-of-type 
   td 
 { border-bottom: 1px solid #ccc; }
+
+.important-title {
+  background: #d9e9ff;
+}
+
+.important-title h3 {
+  margin-top: 0.3em;
+}
+
