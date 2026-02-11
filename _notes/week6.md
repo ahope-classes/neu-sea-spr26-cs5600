@@ -155,6 +155,117 @@ Week 5....
 
 * see handout: simple example based on two locks
 
+Simple Deadlock Example
+
+```c
+T1:
+acquire(mutexA);
+acquire(mutexB); 8
+// do some stuff
+
+ release(mutexB);
+ release(mutexA);
+
+ T2:
+ acquire(mutexB);
+ acquire(mutexA);
+
+ // do some stuff
+
+ release(mutexA);
+ release(mutexB);
+```
+
+More Subtle Example
+
+* 27 Let M be a monitor (shared object with methods protected by mutex)
+28 Let N be another monitor
+
+```cpp
+
+class M {
+  private:
+  Mutex mutex_m;
+
+  // instance of monitor N
+  N another_monitor;
+
+  // Assumption: no other objects in the system hold a pointer
+  // to our "another_monitor"
+
+  public:
+    M();
+    ~M();
+    void methodA();
+    void methodB();
+};
+class N {
+  private:
+    Mutex mutex_n;
+    Cond cond_n;
+    int navailable;
+
+  public:
+    N();
+    ~N();
+    void* alloc(int nwanted);
+    void free(void*);
+}
+
+int
+N::alloc(int nwanted) {
+  acquire(&mutex_n);
+  while (navailable < nwanted) {
+    wait(&cond_n, &mutex_n);
+  }
+
+  // peel off the memory
+
+  navailable −= nwanted;
+  release(&mutex_n);
+}
+
+void
+N::free(void* returning_mem) {
+  acquire(&mutex_n);
+
+  // put the memory back
+
+  navailable += returning_mem;
+
+  broadcast(&cond_n, &mutex_n);
+
+  release(&mutex_n);
+}
+
+void
+M::methodA() {
+
+  acquire(&mutex_m);
+
+  void* new_mem = another_monitor.alloc(int nbytes);
+
+  // do a bunch of stuff using this nice
+  // chunk of memory n allocated for us
+
+  release(&mutex_m);
+}
+
+void
+ M::methodB() {
+   acquire(&mutex_m);
+
+   // do a bunch of stuff
+
+   another_monitor.free(some_pointer);
+
+   release(&mutex_m);
+ }
+```
+
+
+
+
 * see handout: more complex example
 
     * M calls N 
