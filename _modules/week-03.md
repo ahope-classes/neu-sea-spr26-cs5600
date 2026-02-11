@@ -7,7 +7,7 @@ Jan 19
 
 
 Jan 21
-: **Lecture**{: .label .label-yellow } Scheduling. 
+: **Lecture**{: .label .label-yellow } Scheduling. ([Notes]({{site.url}}{{site.baseurl}}/notes/week3), [Scribbles]({{site.url}}{{site.baseurl}}/assets/week3_notes_scribbles.pdf))
   : **READING**{: .label .label-purple } OSTEP [Chapter 7](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched.pdf), OSTEP [Chapter 8](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched-mlfq.pdf), OSTEP [Chapter 9](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched-lottery.pdf)
 
 Jan 23
