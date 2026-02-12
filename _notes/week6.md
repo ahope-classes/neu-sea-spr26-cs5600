@@ -17,27 +17,23 @@ summary: 'Approaches to synchronization'
 </details>
 
 ## Agenda
-
-1. Review Lab 2
+{: .no_toc }
 
 
 
 ## Weekly Summary and Where are we?
 
-TODO 
-
 ### Topics
 
-* **Last Week:** Introduction to systems in general
-* **This Week:** Introduction to the Process abstraction and how to use it in C
-* **Next Week:** How the OS schedules processes (and other things) 
+* **Last Week:** More about Synchronization
+* **This Week:** Finish up Synchronization, 
+* **Next Week:** Introduce Virtual Memory 
 
 ### Assignments
 
-* **Lab 0** (setting up your dev environment) should be submitted already! 
-* **Lab 1** (getting familiar with C, `gdb`, `vim`, `ctags`, etc) is due on Friday
-* **Lab 2** (building `ls`) is out; due 30 Jan 2026.
-* **HW 1** is due on Friday
+* **Lab 3** is out; due 13 Feb 2026-- THIS Friday.
+* Reminder: Regrade requests can be requested until the Friday after the grades are released. 
+
 
 ### Reading Summary
 
@@ -49,77 +45,95 @@ TODO
 
 ### Announcements
 
-* HW2 grading is done and out
-    * Q1a: some student incorrectly stated 0 refers to "exit status 0" (success) rather than a NULL pointer to ignore status.
-    * Q2a: some students missed the core concept of the buffer being duplicated
-    * Q2b: some students failed to explain the reason for the output (non-determinism)
-
-
-==========
-
-Week 5....
-
-==========
+* Please be checking Piazza! 
+* How's Lab 3 going? 
 
 
 
-# Stuff for next time, probably
+# Synchronization, continued
 
-## 1. Concurrency, continued
+## Review from last week
 
-*  condition variable: cond_wait(Cond, Mutex)
-*  always use "while" instead of "if"
-*  has to be a single interface
-   (vs. release/wait/acquire)
+List 5 things! 
+
+* 1)
+* 2)
+* 3)
+* 4)
+* 5)
+
+
+Summary poem from last week:
+
+_In code’s dance, we wait with glee,   
+Conditional variables set us free.   
+Locks guard treasures, no race to fight,   
+Critical sections sleep tight at night.   
+Monitors blend the best of both,   
+Syncing threads with joyful oath.   
+Concurrency’s magic, a happy quirk,   
+Together they work—oh, what a perk!_ 🎉🔐  
+
+***What part of the poem shows how we keep threads from stepping on each other’s toes?***
+
+
+
+*  condition variable: `cond_wait(Cond, Mutex)`
+*  always use "`while`" instead of "`if`"
+*  has to be a single interface (vs. release/wait/acquire)
 
 *  Signal vs. Broadcast
+  * both signal and broadcast wake up threads.
+    * `signal()` wakes up one thread
+    * `broadcast()` wakes up all threads
 
-   * both signal and broadcast wake up threads.
+{: .question }
+>
+>  Can we replace `SIGNAL` with `BROADCAST`, given our monitor semantics?
+>
+><details markdown="block">
+><summary>Answer </summary>
+> Yes, always. Why?
+>
+>  * `while()` condition tests the needed invariant. program doesn't progress pass `while()` unless the needed invariant is true.
+>  * result: spurious wake-ups are acceptable....
+>    * ...which implies you can always wakeup a thread at any moment with no loss of correctness....
+>    * ....which implies you can replace SIGNAL with BROADCAST [though it may hurt performance to have a bunch of needlessly awake threads contending for a mutex that they will then `acquire()` and `release()`.]
+></details>
 
-   Question: Can we replace SIGNAL with BROADCAST, given our monitor semantics?
-    (Answer: yes, always.) Why?
+{: .question }
+>
+>  Can we replace `BROADCAST` with `SIGNAL`?
+>
+><details markdown="block">
+><summary>Answer </summary>
+> Not always. 
+>
+> Example:
+>  * memory allocator
+>  * threads allocate and free memory in variable-sized chunks
+>  * if no memory free, wait on a condition variable
+>  * now posit:
+>  * two threads waiting to allocate chunks of memory
+>  * no memory free at all
+>  * then, a third thread frees 10,000 bytes
+>  * SIGNAL alone does the wrong thing: we need to awaken both threads
+></details>
 
-   * `while()` condition tests the needed invariant. program doesn't progress pass `while()` unless the needed invariant is true.
+* Monitor
+  * an object (= mutex + condition variables)
+  * should be a language primitive
+  * C: a programming convention
 
-   * result: spurious wake-ups are acceptable....
+* "a safe way": Monitor + 6 rules + 4-step design approach
+  * 6 rules:
+    * must memorize!
+  * 4-step design approach
 
-   * ...which implies you can always wakeup a thread at any moment with no loss of correctness....
+* Dangerous concurrency world
+  * never ever try to create your own synchronization; they are likely to be broke(why? do you understand your hardware? don't build a castle on a swamp)
 
-   * ....which implies you can replace SIGNAL with BROADCAST [though it may hurt performance to have a bunch of needlessly awake threads contending for a mutex that they will then acquire() and release().]
-
-   Question: Can we replace BROADCAST with SIGNAL?
-
-   * Answer: not always. 
-
-   * Example:
-       * memory allocator
-       * threads allocate and free memory in variable-sized chunks
-       * if no memory free, wait on a condition variable
-       * now posit:
-       * two threads waiting to allocate chunks of memory
-       * no memory free at all
-       * then, a third thread frees 10,000 bytes
-       * SIGNAL alone does the wrong thing: we need to awaken both threads
-
-*  Monitor
-*  an object (= mutex + condition variables)
-*  should be a language primitive
-*  C: a programming convention
-
-*  "a safe way": Monitor + 6 rules + 4-step design approach
-*  6 rules:
-  *  must memorize! (one of few things I require you to recite)
-*  4-step design approach
-
-* dangerous concurrency world
-* never ever try to create your own synchronization;
-  they are likely to be broke
-  (why?
-  do you understand your hardware? don't build a castle on a swamp)
-* one more example: double−checked locking pattern
-[show slides]
-
-*  Don't manipulate synchronization variables or shared state variables in the code associated with a thread; do it with the code associated with a shared object.  
+* Don't manipulate synchronization variables or shared state variables in the code associated with a thread; do it with the code associated with a shared object.  
 
     * Threads tend to have "main" loops. These loops tend to access shared objects. *However*, the "thread" piece of it should not include locks or condition variables. Instead, locks and CVs should be encapsulated in the shared objects.
 
@@ -135,7 +149,7 @@ Week 5....
     objects. Mantra: "let the shared objects do the work".
 
     * Note: our first example of condition variables --
-    handout, item 2b -- doesn't actually follow the advice, but
+    [Week 5 Notes, Example Producer/Consumer with Mutexes and Condition Variables](../week5/#example-producerconsumer-with-mutexes-and-condition-variables) -- doesn't actually follow the advice, but
     that is in part so you can see all of the parts working
     together.
 
@@ -151,35 +165,39 @@ Week 5....
     (2) Shared objects are separate from threads 
 
 
-## 2. Deadlock
+# 2. Deadlock
 
-* see handout: simple example based on two locks
+See code examples below. 
+
+#### Example: Simple Deadlock
 
 Simple Deadlock Example
 
 ```c
 T1:
-acquire(mutexA);
-acquire(mutexB); 8
-// do some stuff
+  acquire(mutexA);
+  acquire(mutexB); 
 
- release(mutexB);
- release(mutexA);
+  // do some stuff
 
- T2:
- acquire(mutexB);
- acquire(mutexA);
+  release(mutexB);
+  release(mutexA);
 
- // do some stuff
+T2:
+  acquire(mutexB);
+  acquire(mutexA);
 
- release(mutexA);
- release(mutexB);
+  // do some stuff
+
+  release(mutexA);
+  release(mutexB);
 ```
 
+#### Example: A more subtle example
 More Subtle Example
 
-* 27 Let M be a monitor (shared object with methods protected by mutex)
-28 Let N be another monitor
+* Let `M` be a monitor (shared object with methods protected by mutex)
+* Let `N` be another monitor
 
 ```cpp
 
@@ -220,7 +238,6 @@ N::alloc(int nwanted) {
   }
 
   // peel off the memory
-
   navailable −= nwanted;
   release(&mutex_n);
 }
@@ -230,7 +247,6 @@ N::free(void* returning_mem) {
   acquire(&mutex_n);
 
   // put the memory back
-
   navailable += returning_mem;
 
   broadcast(&cond_n, &mutex_n);
@@ -256,91 +272,119 @@ void
    acquire(&mutex_m);
 
    // do a bunch of stuff
-
    another_monitor.free(some_pointer);
 
    release(&mutex_m);
  }
 ```
 
+{: .question }
+>
+> What's the problem here? 
+>
+><details markdown="block">
+><summary>Answer </summary>
+>  * `M` calls `N` 
+>  * `N` waits
+>  * but let's say condition can only become true if `N` is invoked through `M`
+>  * now the lock inside `N` is unlocked, but `M` remains locked; that is, no one is going to be able to enter `M` and hence `N`.
+> * can also get deadlocks with condition variables
+></details>
 
 
-
-* see handout: more complex example
-
-    * M calls N 
-    * N waits
-    * but let's say condition can only become true if N is invoked
-    through M
-    * now the lock inside N is unlocked, but M remains locked; that
-    is, no one is going to be able to enter M and hence N.
-
-* can also get deadlocks with condition variables
-
-* lesson: dangerous to hold locks (M's mutex in the case on the
-handout) when crossing abstraction barriers
+* lesson: dangerous to hold locks (`M`'s mutex that we see in the code above) when crossing abstraction barriers
 
 * deadlocks without mutexes:
+  * real issue is resources and how/when they are required/acquired
 
-    real issue is resources and how/when they are required/acquired
-
-    (a) [draw bridge example]
-
+  * (a) [draw bridge example]
     * bridge only allows traffic in one direction 
-
     * Each section of a bridge can be viewed as a resource. 
-
     * If a deadlock occurs, it can be resolved if one car backs up (preempt resources and rollback). 
-
     * Several cars may have to be backed up if a deadlock occurs. 
-
     * Starvation is possible. 
 
-(b) another example:
-    
+  * (b) another example:
     * one thread/process grabs disk and then tries to grab scanner
-
     * another thread/process grabs scanner and then tries to grab disk
 
-* when does deadlock happen? under four conditions. all of them must hold for deadlock to happen:
+## When does deadlock happen?
 
-1. mutual exclusion
-2. hold-and-wait
-3. no preemption
-4. circular wait
+All of the following four conditions must happen for deadlock to happen:
 
-
-* what can we do about deadlock?
-
-    (a) ignore it: worry about it when it happens. the so-called "ostrich solution"
-
-    (b) detect and recover
-
-    * could imagine attaching debugger
-
-    * not really viable for production software, but works well in development
-
-    * threads package can keep track of resource-allocation graph
-
-    * For each lock acquired, order with other locks held 
-    
-    * If cycle occurs, abort with error 
-    
-    * Detects potential deadlocks even if they do not occur 
+1. **Mutual exclusion/bounded resources**: There are finite number of threads that can simultaneously use a resource (e.g. keyboard)
+2. **Hold-and-wait**: A thread holds one resource while waiting for another. (aka "multiple independent requests")
+3. **No preemption**: Once a thread acquires a resource, it holds it until it releases it (it can't be revoked)
+4. **Circular wait**: There is a set of waiting threads such that each thread is waiting for a resource held by another. 
 
 
-(c) avoid algorithmically
+## What can we do about deadlock?
 
-* banker's algorithm
-  * need to know the maximum resources needed by each process
-  * only allocate resources if the state is safe
-    (safe state: there are enough resources for *all* the executing processes to finish under some allocation scheduling.)
+A few options: 
 
-* elegant but impractical
+* Ignore it
+* Detect it, then recover
+* Use an algorithm to be smart about acquiring/releasing
+* Avoid necessary preconditions with our coding
+* Use static and dynamic detection tools/analysis
 
-* if you're using banker's algorithm, it looks like this:
 
-```
+### Option 1: Ignore it!
+
+Wait until it happens, see what can be done. ¯\_(ツ)_/¯
+
+
+### Option 2: Detect and Recover 
+
+Sometimes it's difficult or expensive to enforce enough structure on a system to prevent all deadlocks. 
+
+In order to do this, we need: 
+* A way to detect deadlock
+* A way to recover from deadlock, without too much harm
+
+Ways we might recover: 
+* Could just kill the process, but this isn't always as harmless as it seems
+  * Imagine if a thread in the process is holding a lock on a kernel process
+* Proceed without the resource
+  * Consider the web: If it takes too long for a site to respond, users leave. 
+  * Example: Buying something at Amazon
+    * Normal operation: the software checks inventory to ensure stock before completing a sale. 
+    * Assume that the check inventory step fails or deadlocks: 
+      * Give up on waiting for the inventory
+      * Go ahead and complete the order
+      * Queue a background task to check if the item is actually available
+      * If the item was not available, send an apology to the customer
+* Transactions: Rollback and retry
+  * We'll talk more about transaction in the future
+  * Choose a thread to rollback:
+    * Stop the thread
+    * Undo whatever the thread has already done
+    * Let other threads proceed
+  * After some other threads have started moving, restart the rolled-back thread
+
+Ways we might detect: 
+* We could keep it simple, and just assume deadlock if we find ourselves waiting for too long
+  * Might get false positives, but that might be okay
+* We could keep track of a resource graph
+  * Imagine a graph with each thread and each resource is a node
+    * Edges: 
+      * a thread owns a resource
+      * a thread is waiting for a resource
+    * Any cycles indicate deadlock --> move to recovery
+
+
+### Option 3: Avoid it Algorithmically
+
+Use the Banker's Algorithm to eliminate wait-while-holding. 
+* Essentially, wait until all needed resources are available and acquire them atomically at the beginning of an operation. 
+  * In contrast to acquiring resources as we continue
+* Con: We need to know all the resources we might need by each process
+* It's complex, but simplified versions are commonly used 
+
+
+* It looks like this:
+
+```cpp
 ResourceMgr::Request(ResourceID resc,
              RequestorID thrd) {
     acquire(&mutex);
@@ -355,8 +399,9 @@ ResourceMgr::Request(ResourceID resc,
 }
 ```
 
-Now we need to determine if a state is safe....
+What does it mean for the system to be "in a safe state"? 
 
+* For any possible sequence of resource requests, there is at least one safe sequence of processing the requests that eventually succeeds in grant all pending and future requests. 
 * an example:
   *  a bank has 10 coins
   *  three customers (max coins needed):
@@ -372,273 +417,417 @@ Now we need to determine if a state is safe....
       bank: 3
 ```
 
-  *  Question: is current state safe?
-  [Answer: yes, because there is a way to let all finish: B->C->A]
+{: .question }
+>
+> Is current state safe? 
+>
+><details markdown="block">
+><summary>Answer </summary>
+> yes, because there is a way to let all finish: B->C->A
+></details>
 
-  *  Question: if A requests and gets another coin, is the state then safe?
-  [Answer: no, there is no *guarantee* for A and C to finish. Try it yourself.]
-    * so the banker should reject A's request because the state if not safe.
+{: .question }
+>
+> If A requests and gets another coin, is the state then safe?
+>
+><details markdown="block">
+><summary>Answer </summary>
+> no, there is no *guarantee* for A and C to finish. 
+>
+> so the banker should reject A's request because the state if not safe.
+></details>
 
-See details at Wiki:
-  https://en.wikipedia.org/wiki/Banker%27s_algorithm
+
+See details at [Wiki](https://en.wikipedia.org/wiki/Banker%27s_algorithm). 
 
 * disadvantage to banker's algorithm:
+  * requires every single resource request to go through a single broker
+  * requires every thread to state its maximum resource needs up front. 
+    * unfortunately, if threads are conservative and claim they need huge quantities of resources, the algorithm will reduce concurrency
 
-* requires every single resource request to go through a single broker
 
-* requires every thread to state its maximum resource needs up front. unfortunately, if threads are conservative and claim they need huge quantities of resources, the algorithm will reduce concurrency
+### Option 4: Avoid Necessary Pre-conditions by being careful with our Coding
 
-(d) negate one of the four conditions using careful coding:
+We can try to avoid the 4 conditions by coding more carefully. 
 
-* can sort of negate 1
-* put a queue in front of resources, like the printer
-* virtualize memory
+* Negating #1 (kinda), mutual exclusion: 
+  * put a queue in front of resources, like the printer
 
-* can sort of negate 2
-* either cancel "hold": abort when conflicting
-* or cancel "wait": hold *all* resources at once
+* Negating #2 (kinda), hold-and-wait:
+  * Release the lock when calling out of the module
+    * either cancel "hold": abort when conflicting
+    * or cancel "wait": hold *all* resources at once
 
-* can sort of negate 3:
-* consider physical memory: virtualized with VM, can take physical page away and give to another process! 
+* Negating #3 (kinda), no pre-emption:
+  * Choose to pre-empt resources (forcibly reclaim resources held by a different thread)
+    * Ex: consider physical memory: virtualized with VM, can take physical page away and give to another process! 
 
-* what about negating #4?
+* Negating #4, circular wait: 
+  * In practice, this is what people do
+  * Big idea: partial order on locks
+      * Establishing an order on all locks and making sure that every thread acquires its locks in that order
+      * Requires developers to follow a convention
+  * Why this works:
+      * can view deadlock as a cycle in the resource acquisition graph
+      * partial order implies no cycles and hence no deadlock
 
-* in practice, this is what people do
-
-* idea: partial order on locks
-
-    * Establishing an order on all locks and making sure that every thread acquires its locks in that order
-
-* why this works:
-
-    * can view deadlock as a cycle in the resource acquisition graph
-
-    * partial order implies no cycles and hence no deadlock
-
-* two bummers:
-
-    1. hard to represent CVs inside this framework.
+  * Drawbacks
+      1. Difficult to represent conditional variables inside this framework.
         * works best only for locks.
+      2. Picking and obeying the order on *all* locks requires that modules make public their locking behavior, and requires them to know about other modules' locking.  This can be painful and error-prone. 
+      * Example: see Linux's `filemap.c` example below (source is [here](https://github.com/torvalds/linux/blob/7cca308cfdc0725363ac5943dca9dcd49cc1d2d5/mm/filemap.c)); this is complexity that arises by the need for a locking order
 
-    2. Picking and obeying the order on *all* locks requires that modules make public their locking behavior, and requires them to know about other modules' locking.  This can be painful and error-prone. 
+```c
+/*
+* linux/mm/filemap.c
+*
+* Copyright (C) 1994−1999 Linus Torvalds
+*/
 
-    * see Linux's filemap.c example on the handout; this is complexity that arises by the need for a locking order
+/*
+* This file handles the generic file mmap semantics used by
+* most "normal" filesystems (but you don’t /have/ to use this:
+* the NFS filesystem used to do this differently, for example)
+*/
 
-(e) Static and dynamic detection tools
+// (AHS: #includes and other notes omitted for brevity)
+
+/*
+* Lock ordering:
+*
+* −>i_mmap_rwsem (truncate_pagecache)
+*   −>private_lock (__free_pte−>__set_page_dirty_buffers)
+*     −>swap_lock (exclusive_swap_page, others)
+*       −>i_pages lock
+*
+* −>i_mutex
+*   −>i_mmap_rwsem (truncate−>unmap_mapping_range)
+*
+* −>mmap_sem
+*   −>i_mmap_rwsem
+*     −>page_table_lock or pte_lock (various, mainly in memory.c)
+*       −>i_pages lock (arch−dependent flush_dcache_mmap_lock)
+*
+* −>mmap_sem
+*   −>lock_page (access_process_vm)
+*
+* −>i_mutex (generic_perform_write)
+*   −>mmap_sem (fault_in_pages_readable−>do_page_fault)
+*
+* bdi−>wb.list_lock
+*   sb_lock (fs/fs−writeback.c)
+*   −>i_pages lock (__sync_single_inode)
+*
+* −>i_mmap_rwsem
+*   −>anon_vma.lock (vma_adjust)
+*
+* −>anon_vma.lock
+*   −>page_table_lock or pte_lock (anon_vma_prepare and various)
+*
+* −>page_table_lock or pte_lock
+*   −>swap_lock (try_to_unmap_one)
+*   −>private_lock (try_to_unmap_one)
+*   −>i_pages lock (try_to_unmap_one)
+*   −>zone_lru_lock(zone) (follow_page−>mark_page_accessed)
+*   −>zone_lru_lock(zone) (check_pte_range−>isolate_lru_page)
+*   −>private_lock (page_remove_rmap−>set_page_dirty)
+*   −>i_pages lock (page_remove_rmap−>set_page_dirty)
+*   bdi.wb−>list_lock (page_remove_rmap−>set_page_dirty)
+*   −>inode−>i_lock (page_remove_rmap−>set_page_dirty)
+*   −>memcg−>move_lock (page_remove_rmap−>lock_page_memcg)
+*   bdi.wb−>list_lock (zap_pte_range−>set_page_dirty)
+*   −>inode−>i_lock (zap_pte_range−>set_page_dirty)
+*   −>private_lock (zap_pte_range−>__set_page_dirty_buffers)
+*
+* −>i_mmap_rwsem
+*   −>tasklist_lock (memory_failure, collect_procs_ao)
+*/
+
+static int page_cache_tree_insert(struct address_space *mapping,
+struct page *page, void **shadowp)
+{
+  struct radix_tree_node *node;
+  ...
+
+```
+
+It's a bit ironic that the "best" approach for preventing deadlock is one that goes against so many best programming practices...
+
+
+### Option 5: Use Static and Dynamic Detection Tools 
 
 * (if you're interested)
-See, for example, these citations, citations
-therein, and papers that cite them:
+See, for example, these citations, citations therein, and papers that cite them:
 
-Engler, D. and K. Ashcraft. RacerX: effective,
-static detection of race conditions and deadlocks.
-Proc. ACM Symposium on Operating Systems Principles
-(SOSP), October, 2003, pp237-252.
-http://portal.acm.org/citation.cfm?id=945468
+Engler, D. and K. Ashcraft. RacerX: effective, static detection of race conditions and deadlocks. Proc. ACM Symposium on Operating Systems Principles
+(SOSP), October, 2003, pp237-252. http://portal.acm.org/citation.cfm?id=945468
 
-Savage, S., M. Burrows, G. Nelson, P. Sobalvarro,
-and T. Anderson. Eraser: a dynamic data race
-detector for multithreaded programs. ACM
-Transactions on Computer Systems (TOCS), Volume 15,
-No 4., Nov., 1997, pp391-411.
-http://portal.acm.org/citation.cfm?id=265927
+Savage, S., M. Burrows, G. Nelson, P. Sobalvarro, and T. Anderson. Eraser: a dynamic data race detector for multithreaded programs. ACM Transactions on Computer Systems (TOCS), Volume 15, No 4., Nov., 1997, pp391-411. http://portal.acm.org/citation.cfm?id=265927
 
-a long literature on this stuff
-
+* Active (and long!) area of systems research 
 * Disadvantage to dynamic checking: slows program down
+* Disadvantage to static checking: many false alarms (tools says "there is deadlock", but in fact there is none) or else missed problems
+* Note that these tools get better every year. I believe that Valgrind has a race and deadlock detection tool
 
-* Disadvantage to static checking: many false alarms
-(tools says "there is deadlock", but in fact there is
-none) or else missed problems
+# 3. Other concurrency issues
 
-* Note that these tools get better every year. I believe
-that Valgrind has a race and deadlock detection tool
+## Making Progress 
 
-## 3. Other concurrency issues
 
-  (a) progress issues
+Deadlock was one kind of progress (or liveness) issue. Here are others...
 
-    Deadlock was one kind of progress (or liveness) issue.
-    Here are others...
+### Livelock 
+- Livelock
 
-  - Livelock
+  *  two threads waiting on each other: deadlock
+  *  each backs off when finding another process
+  *  a possibility: all processes keep aborting and make no progress
 
-    *  two threads waiting on each other: deadlock
-    *  each backs off when finding another process
-    *  a possibility: all processes keep aborting and make no progress
+    [draw a curly bridge]
 
-      [draw a curly bridge]
+### Starvation
+- Starvation
 
-  - Starvation
+  * thread waiting indefinitely (if low priority and/or if resource is contended)
+  *  for example, merging to a busy road with a yield sign
 
-    * thread waiting indefinitely (if low priority and/or if
-    resource is contended)
+### Priority Inversion
 
-    *  for example, merging to a busy road with a yield sign
+- Priority inversion
+  * T1, T2, T3: (highest, middle, lowest priority)
+  * T1 wants to get lock, T2 runnable, T3 runnable and holding lock
+  * System will preempt T3 and run highest-priority runnable thread, namely T2
+  * Solutions:
+    * Temporarily bump T3 to highest priority of any thread that is
+    ever waiting on the lock
+    * Disable interrupts, so no preemption (T3 finishes) ... not great because OS sometimes needs control (not for scheduling, under this assumption, but for handling memory [page faults], etc.)
+    * Don't handle it; structure app so only adjacent priority processes/threads share locks
 
-  - Priority inversion
+  * Happened in real life, see: https://www.microsoft.com/en-us/research/people/mbj/just-for-fun/ (search for Pathfinder)
 
-    * T1, T2, T3: (highest, middle, lowest priority)
+    *  Mars pathfinder experience total system resets
+    *  what happened:
+      *  data gathering thread (low priority)
+      *  communication thread (medium priority)
+      *  management thread (high priority)
+      *  data gathering and management threads may acquire the same mutex
+      *  classic priority inversion
 
-    * T1 wants to get lock, T2 runnable, T3 runnable and holding lock
-
-    * System will preempt T3 and run highest-priority runnable thread, namely T2
-
-    * Solutions:
-
-      * Temporarily bump T3 to highest priority of any thread that is
-      ever waiting on the lock
-
-      * Disable interrupts, so no preemption (T3 finishes)
-      ... not great because OS sometimes needs control
-      (not for scheduling, under this assumption, but for
-      handling memory [page faults], etc.)
-
-      * Don't handle it; structure app so only adjacent priority
-      processes/threads share locks
-
-    * Happened in real life, see:
-    https://www.microsoft.com/en-us/research/people/mbj/just-for-fun/
-        (search for Pathfinder)
-
-      *  Mars pathfinder experience total system resets
-      *  what happened:
-        *  data gathering thread (low priority)
-        *  communication thread (medium priority)
-        *  management thread (high priority)
-        *  data gathering and management threads may acquire the same mutex
-        *  classic priority inversion
+## Other Concurrency bugs
 
   (b) other concurrency bugs
 
-    - atomicity-violation bugs
+### Atomicity-violation bugs
 
 ```
-        T1:
-          if (thd->info) {
-            ...
-            use(thd->info);
-            ...
-          }
+T1:
+  if (thd->info) {
+    ...
+    use(thd->info);
+    ...
+  }
 
-        T2:
-          thd->info = NULL
+T2:
+  thd->info = NULL
 ```
 
-- order-violation bugs
+### Order-violation bugs
 
 ```
-        T1:
-          void init() {
-            thd = createThread(...)
-          }
+  T1:
+    void init() {
+      thd = createThread(...)
+    }
 
-        T2:
-          void main() {
-            state = thd->info
-          }
+  T2:
+    void main() {
+      state = thd->info
+    }
 ```
 
 
-"Learning from Mistakes -- A Comprehensive Study on Real World Concurrency Bug Characteristics"
-      https://people.cs.uchicago.edu/~shanlu/preprint/asplos122-lu.pdf
+["Learning from Mistakes -- A Comprehensive Study on Real World Concurrency Bug Characteristics"](https://people.cs.uchicago.edu/~shanlu/preprint/asplos122-lu.pdf)
 
 
-   (c) performance vs. complexity
+## Performance vs. Complexity
 
 *  Coarse locks limit available parallelism  ....
 
 [(still, you should design this way at first!!!)]
 
-the fundamental issue with coarse-grained locking is that
-only one CPU can execute anywhere in the part of your code
-protected by a lock. If your critical section code is called
-a lot, this may reduce the performance of an expensive
-multiprocessor to that of a single CPU.
+the fundamental issue with coarse-grained locking is that only one CPU can execute anywhere in the part of your code protected by a lock. If your critical section code is called a lot, this may reduce the performance of an expensive multiprocessor to that of a single CPU.
 
-if this happens inside the kernel, it means that
-applications will inherit the performance problems from the
-kernel
+if this happens inside the kernel, it means that applications will inherit the performance problems from the kernel
 
 
- *  ... but fine-grained locking leads to complexity and hence bugs
- (like deadlock)
+*  ... but fine-grained locking leads to complexity and hence bugs(like deadlock)
 
     * > although finer-grained locking can often lead to better
     performance, it also leads to increased complexity and hence
     risk of bugs (including deadlock).
-
-    * > see handout
-
-    * > also code here:
-    https://github.com/torvalds/linux/blob/7cca308cfdc0725363ac5943dca9dcd49cc1d2d5/mm/filemap.c
+      * e.g. the ordering of locks in the linux code example excerpted above
 
 
-## 4. Other synchronization mechanisms
+# Other synchronization mechanisms
 
-  - semaphores
-    *  mentioned last time
-    *  first general-purpose synchronization primitive
-    *  (you should not use it)
+## Semaphores
+  *  mentioned last time
+  *  first general-purpose synchronization primitive
+  *  (you should not use it)
 
-  - Barrier
-    *  an example, GPU
+## Barrier
+  *  an example: GPU
     *  many cores, literally thousands
     *  no cache coherence (unlike CPU)
     *  after barrier, all threads are synced
 
-  - spinlocks
-    *  when acquiring the lock, the thread "spins".
-    *  implementation
-       [See handout]
-    *  atomic instructions are expensive
-      * some detailed experiments here:
-        https://arxiv.org/pdf/2010.09852.pdf
+## Spinlocks
+  *  when acquiring the lock, the thread "spins".
+  *  implementation (see codeblocks below)
+  *  atomic instructions are expensive
+    * some detailed experiments here:
+      [https://arxiv.org/pdf/2010.09852.pdf](https://arxiv.org/pdf/2010.09852.pdf)
 
-  - reader-writer locks
-    *  recall the "database problem" in handout week 5.a panel 2&3
-    *  usage (*pseudocode*):
+#### Example: Spinlock, Broken Implementation
 
-      rwlock_t lock
-      acquire_rdlock(&lock)
-      acquire_wrlock(&lock)
-      unlock(&lock)
+```c
 
-  - Read-copy-update (RCU)
-    *  do we have to block readers when modifying a data structure?
-    *  answer: No, using RCU
-    *  an example of deletion in double-linked list
-       [show slides]
+struct Spinlock {
+  int locked;
+}
 
-    * basic idea:
-      *  readers work as normal (as if there is no concurrent updaters)
-      *  updaters
-        *  make copies
-        *  maintain both old and new version for a "grace period"
-        *  delete the old version
+void acquire(Spinlock *lock) {
+  while (1) {
+    if (lock−>locked == 0) { // A
+      lock−>locked = 1; // B
+      break;
+    }
+  }
+}
 
-    * see also:
-        https://cs.nyu.edu/~mwalfish/classes/14fa/ref/rcu2.pdf
+void release (Spinlock *lock) {
+  lock−>locked = 0;
+}
+
+```
+
+What’s the problem? 
+* Two `acquire()`s on the same lock on different CPUs might both execute line A, and then both execute B. Then both will think they have acquired the lock. Both will proceed. That doesn’t provide mutual exclusion.
+
+#### Example: Correct Spin-Lock Implementation
+
+Relies on atomic hardware instruction. For example, on the x86−64,
+doing `xchg addr, %rax` does the following:
+
+* (i) freeze all CPUs’ memory activity for address `addr`
+* (ii) `temp <−− *addr`
+* (iii) `*addr <−− %rax`
+* (iv) `%rax <−− temp`
+* (v) un−freeze memory activity
+
+```c
+
+/* pseudocode */
+int xchg_val(addr, value) {
+  %rax = value;
+  xchg (*addr), %rax
+}
+
+/* bare−bones version of acquire */
+void acquire (Spinlock *lock) {
+  pushcli(); /* what does this do? */
+  while (1) {
+    if (xchg_val(&lock−>locked, 1) == 0)
+    break;
+  }
+}
+
+void release(Spinlock *lock){
+  xchg_val(&lock−>locked, 0);
+  popcli(); /* what does this do? */
+}
+
+/* optimization in acquire; call xchg_val() less frequently */
+void acquire(Spinlock* lock) {
+  pushcli();
+  while (xchg_val(&lock−>locked, 1) == 1) {
+    while (lock−>locked) ;
+  }
+}
+```
+
+The above is called a *spinlock* because `acquire()` spins. The
+bare−bones version is called a "test−and−set (TAS) spinlock"; the
+other is called a "test−and−test−and−set spinlock".
+
+The spinlock above is great for some things, not so great for
+others. The main problem is that it *busy waits*: it spins,
+chewing up CPU cycles. Sometimes this is what we want (e.g., if
+the cost of going to sleep is greater than the cost of spinning
+for a few cycles waiting for another thread or process to
+relinquish the spinlock). But sometimes this is not at all what we
+want (e.g., if the lock would be held for a while: in those
+cases, the CPU waiting for the lock would waste cycles spinning
+instead of running some other thread or process).
+
+NOTE: the spinlocks presented here can introduce performance issues
+when there is a lot of contention. (This happens even if the
+programmer is using spinlocks correctly.) The performance issues
+result from cross−talk among CPUs (which undermines caching and
+generates traffic on the memory bus). If we have time later, we will
+study a remediation of this issue (search the Web for "MCS locks").
+
+ANOTHER NOTE: In everyday application−level programming, spinlocks
+will not be something you use (use mutexes instead). But you should
+know what these are for technical literacy, and to see where the
+mutual exclusion is truly enforced on modern hardware.
+
+## Reader-Writer locks
+  *  recall the "database problem" in Week 5
+  *  usage (*pseudocode*):
+```
+rwlock_t lock
+acquire_rdlock(&lock)
+acquire_wrlock(&lock)
+unlock(&lock)
+```
+## Read-copy-update (RCU)
+  *  do we have to block readers when modifying a data structure?
+  *  answer: No, using RCU
+  *  an example of deletion in double-linked list
+     [show slides] TODO(ahs)
+
+  * basic idea:
+    *  readers work as normal (as if there is no concurrent updaters)
+    *  updaters
+      *  make copies
+      *  maintain both old and new version for a "grace period"
+      *  delete the old version
+
+  * see also:
+      https://cs.nyu.edu/~mwalfish/classes/14fa/ref/rcu2.pdf
 
 
-  - deterministic multithreading
+## Deterministic Multithreading
 
-    *  concurrent programs have "infinite" possible schedules 
-       (hence we don't know what may go wrong)
+*  concurrent programs have "infinite" possible schedules  (hence we don't know what may go wrong)
+*  BUT, we do know which schedules are okay (for example, by testing)
+*  idea: avoid unseen interleavings and schedules which are potentially buggy
+*  see also: "Stable Deterministic Multithreading through Schedule Memoization" https://www.cs.columbia.edu/~junfeng/11sp-w4118/lectures/tern.pdf
+  - A useful book for concurrency ninjas: Paul E. McKenney, "Is Parallel Programming Hard, And, If So, What Can You Do About It?" https://mirrors.edge.kernel.org/pub/linux/kernel/people/paulmck/perfbook/perfbook-e2.pdf
 
-    *  BUT, we do know which schedules are okay
-       (for example, by testing)
+# Summary/Wrap-Up
 
-    *  idea: avoid unseen interleavings and schedules
-       which are potentially buggy
+* 1)
+* 2)
+* 3)
+* 4)
+* 5)
 
-    *  see also:
-       "Stable Deterministic Multithreading through Schedule Memoization"
-       https://www.cs.columbia.edu/~junfeng/11sp-w4118/lectures/tern.pdf
+Let's put these in Khanmigo and get a summary. 
 
-  - A useful book for concurrency ninjas:
-    Paul E. McKenney, "Is Parallel Programming Hard, And, If So, What Can You Do About It?"
-    https://mirrors.edge.kernel.org/pub/linux/kernel/people/paulmck/perfbook/perfbook-e2.pdf
+
+### Acknowledgements 
 
 [thanks to David Mazieres, Mike Dahlin, and Mike Walfish
 for content in portions of this lecture.]
