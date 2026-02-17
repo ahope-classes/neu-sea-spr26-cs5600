@@ -291,34 +291,44 @@ That is, each process only has permission to access its own pages. You can tell 
 
 What goes in per-process page tables:
 
-The initial mappings for addresses less than `PROC_START_ADDR` should be copied from those in `kernel_pagetable`. You can use a loop with `virtual_memory_lookup` and `virtual_memory_map` to copy them. Alternately, you can copy the mappings from the kernel’s page table into the new page tables; this is faster, but make sure you copy the right data!
+* The initial mappings for addresses less than `PROC_START_ADDR` should be copied from those in `kernel_pagetable`. You can use a loop with `virtual_memory_lookup` and `virtual_memory_map` to copy them. Alternately, you can copy the mappings from the kernel’s page table into the new page tables; this is faster, but make sure you copy the right data!
 
-The initial mappings for the user area—addresses greater than or equal to `PROC_START_ADDR—should` be inaccessible to user processes (that is, `PTE_U` should not be set for these `PTE`s). In our solution (shown above), these addresses are totally inaccessible (so they show as blank), but you can also change this so that the mappings are still there, but accessible only to the kernel, as in this diagram:
+* The initial mappings for the user area—addresses greater than or equal to `PROC_START_ADDR`—- should be inaccessible to user processes (that is, `PTE_U` should not be set for these `PTE`s). In our solution (shown above), these addresses are totally inaccessible (so they show as blank), but you can also change this so that the mappings are still there, but accessible only to the kernel, as in this diagram:
 
 
 <img src="../../assets/images/labs/lab4/fig-memos-isolated2.gif" alt="---" width="800"/>
 
 The reverse video shows that this OS also implements process isolation correctly.
 
-[Note: This second approach will pass the automated tests for step 2 but not for steps 3 and beyond. Thus, we recommend taking the first approach, namely total inaccessibility.]
+[**Note:** This second approach will pass the automated tests for step 2 but not for steps 3 and beyond. Thus, we recommend taking the first approach, namely total inaccessibility.]
 
 How to implement per-process page tables:
 
-Change `process_setup` to create per-process page tables.
+* Change `process_setup` to create per-process page tables.
 
-We suggest you write a `copy_pagetable(x86_64_pagetable* pagetable, int8_t owner)` function that allocates and returns a new page table, initialized as a full copy of pagetable (including all mappings from pagetable). This function will be useful in Step 5. In `process_setup` you can modify the page table returned by `copy_pagetable` according to the requirements above. Your function can use `pageinfo` to find free pages to use for page tables. Read about `pageinfo` at the top of `kernel.c`.
+* We suggest you write a `copy_pagetable(x86_64_pagetable* pagetable, int8_t owner)` function that allocates and returns a new page table, initialized as a **full copy** of pagetable (including all mappings from pagetable). This function will be useful in Step 5. In `process_setup` you can modify the page table returned by `copy_pagetable` according to the requirements above. Your function can use `pageinfo` to find free pages to use for page tables. Read about `pageinfo` at the top of `kernel.c`.
 
-Remember that the x86-64 architecture uses four-level page tables.
+* Remember that the x86-64 architecture uses *four-level* page tables.
 
-The easiest way to copy page tables involves an allocator function suitable for passing to `virtual_memory_map`.
+* The easiest way to copy page tables involves an *allocator* function suitable for passing to `virtual_memory_map`.
 
-You’ll need at least to allocate a level-1 page table and initialize it to zero. You can also set up the whole four-level page table skeleton (for addresses `0...MEMSIZE_VIRTUAL - 1`) yourself; then you don’t need an allocator function.
+* You’ll need at least to allocate a level-1 page table and initialize it to zero. You can also set up the whole four-level page table skeleton (for addresses `0...MEMSIZE_VIRTUAL - 1`) yourself; then you don’t need an allocator function.
 
-A physical page is free if `pageinfo[PAGENUMBER].refcount == 0`. Look at the other code in `kernel.c` for some hints on how to examine the `pageinfo[]` array.
+* A physical page is free if `pageinfo[PAGENUMBER].refcount == 0`. Look at the other code in `kernel.c` for some hints on how to examine the `pageinfo[]` array.
 
-All of process P’s page table pages must have `pageinfo[...].owner == P` or WeensyOS’s consistency-checking functions will fail. This will affect your allocator function. (Hint: Don’t forget that global variables are allowed in your code!)
+* All of process `P`’s page table pages must have `pageinfo[...].owner == P` or WeensyOS’s consistency-checking functions will fail. This will affect your allocator function. (Hint: Don’t forget that global variables are allowed in your code!)
 
-If you create an incorrect page table, WeensyOS might crazily reboot. Don’t panic! Add log_printf statements. Another useful technique that may at first seem counterintuitive: add infinite loops to your kernel to track down exactly where a fault occurs. (If the OS hangs without crashing once you’ve added an infinite loop, then the crash you’re debugging must occur after the infinite loop.)
+If you create an incorrect page table, WeensyOS might crazily reboot. Don’t panic! Add `log_printf` statements. Another useful technique that may at first seem counterintuitive: add infinite loops to your kernel to track down exactly where a fault occurs. (If the OS hangs without crashing once you’ve added an infinite loop, then the crash you’re debugging must occur after the infinite loop.)
+
+Adrienne's potential notes: 
+
+* Hint: The macros in `x86.h` will be handy, particularly `PTE_ADDR` (see the section on "Address composition" above).
+* These pages should be owned by the process (should have `pageinfo[PN].owner == processid`).
+* Because of a restriction in how program_load works, you must use addresses in kernel address space (i.e., below PROC_START_ADDR) for the initial processes’ page tables.
+* ?? The level-1 page table is all 0, except that `pagetable->entry[0]` should equal (`x86_pageentry_t`) `address_of_new_l2_pagetable | PTE_P | PTE_W | PTE_U`. You need to set this up yourself.
+* ?? The initial mappings for addresses less than `PROC_START_ADDR` should be copied from those in `kernel_pagetable`. You can use a loop with `virtual_memory_lookup` and `virtual_memory_map` to copy them. Alternately, you can copy the mappings from the kernel’s page table into the new page table using `memcpy`. This is faster, but make sure you copy the right data!
+* 
+
 
 Again, once finished with step 2, commit and push!
 

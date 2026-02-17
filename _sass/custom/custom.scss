@@ -12,6 +12,7 @@ code {
   font-size: 14px;
   padding: 0.2em 0.4em;
   border: none;
+  color: #ff0375;
 }
 
 .highlight {
@@ -52,7 +53,7 @@ pre.highlight {
 }
 
 code.highlighter-rouge {
-  background: $grey-lt-300;
+  background: $grey-lt-100;
 }
 
 iframe {
