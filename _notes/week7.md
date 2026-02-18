@@ -348,6 +348,25 @@ the VPN is 20 bits, means there are {%raw%}$$2^{20}$${%endraw%}  virtual pages, 
 
 ## B. Key data structure: page table
 
+Adrienne's notes from the book
+
+* A VA is composed of a *virtual page number* and a *page offset*
+* If the page size is 2^P byes, then the least significant P bits of the virtual address are the page offset, the rest of the bits from the virtual page number 
+* The page table is an arrage of *page table entries* (PTE)
+    * One PTE corresponds to each virtual memory page
+* When translating a VA to a PA, the PTE corresponding to the VA is located 
+    * ...by indexing into the page table using the virtual page number as the index
+    * The PTE contains a *valid bit* and a *physical page number*, and possibly a *dirty bit*
+        * The valid bit indicates whether the page is currently located in main memory
+    * If valid, the phosical page number is concatenated with the page offset from the virtual address to form the physical address corresponding to the original virtual address 
+* Each PTE needs to accommodate the pyshical page number, the valid bit, and a few other bits
+    * Usually a PTE fits into 32 bits but not 16 bits
+    * Thus, assume each PTE is represented by a 4-byte longword. 
+    * To locate the relevant PTE, the virtual page number is multiplied by 4 and added to the *page-table address*, which is typically kept in a processor register
+    
+
+
+
 page table conceptually implements a map from 
     VPN --> PPN
 
@@ -702,22 +721,17 @@ have to map 48-bit number (virtual address) to 52-bit number (physical address),
  ** An example:
     [walk through the handout]
 
-What if OS wants to map a process's
-
-    virtual address  0x0202000  to
-    physical address 0x3000
-
-and
-
-    make it accessible to user-level but read-only?
+What if OS wants to map a process's virtual address  `0x0202000`  to physical address `0x3000` and make it accessible to user-level but read-only?
 
 what do the page structures look like?
 
 solution:
 
-        take off the bottom 12 bits of offset
+* take off the bottom 12 bits of offset
+
             vpn = 0x0202.
-        write it out in bits:
+
+* write it out in bits:
 
              0....0    000000001  000000010
               18 0
@@ -746,46 +760,40 @@ solution:
 [Intel 64 and IA-32 Architectures Software Developer's Manual, Volume 3a](https://www.intel.com/content/dam/www/public/us/en/documents/manuals/64-ia-32-architectures-software-developer-vol-3a-part-1-manual.pdf)
 ]
 
- ** PTE:
-    bunch of bits includes 
-        dirty (set by hardware)
-        acccessed (set by hardware)
-        present (set by OS)
-        cache disabled (set by OS)
-        write through  (set by OS)
-
-what will happen if the present bit is 0 but a program accesses the memory?
-
-[answer: page fault; we will study it later.]
-
-what do the U/S and R/W bits do?
-
---are these for the kernel, the hardware, what?
-
---who is setting them? what is the point?
-
-(OS is setting them to indicate protection; hardware is
-enforcing them)
-
--- what if the permission is violated?
-
-[answer: again, page fault]
+ * PTE (Page Table Entry) holds a bunch of bits including: 
+    * dirty (set by hardware)
+    * acccessed (set by hardware)
+    * present (set by OS)
+    * cache disabled (set by OS)
+    * write through  (set by OS)
 
 
-  ** Large pages:
+{: .question }
+>
+> What will happen if the present bit is 0 but a program accesses the memory?
+>
+><details markdown="block">
+><summary>Answer </summary>
+> page fault; we will study it later.
+></details>
 
- Can get 2MB (resp, 1 GB pages) on x86: each L3 (resp, L2) page
- table now points to the page instead of another page table
 
- + page tables smaller, less page table walking
+What do the U/S and R/W bits do?
+* are these for the kernel, the hardware, what?
+* who is setting them? what is the point?
+    (OS is setting them to indicate protection; hardware is enforcing them)
+* what if the permission is violated?
+    * Page fault! 
 
- - more wasted memory
 
- to enable this, set bit 7 (PS) bit
-
- example: set bit PS in L3 table
-     result is 2MB pages
-     page walking is L1, L2, L3; no L4 page tables
+* Large pages:
+    * Can get 2MB (resp, 1 GB pages) on x86: each L3 (resp, L2) page table now points to the page instead of another page table
+        + page tables smaller, less page table walking
+        - more wasted memory
+* to enable this, set bit 7 (`PS`) bit
+    * example: set bit `PS` in L3 table
+        * result is 2MB pages
+        * page walking is L1, L2, L3; no L4 page tables
 
 
 # 4. Practice
@@ -844,7 +852,7 @@ Practice:
 - This is the standard x86 32-bit two-level page table structure (not x86-64; we use 32-bit for simplicity).
 - The permission bits of page directory entries and page table entries are set to 0x7.
 	* (what does 0x7 mean? 
-    * answer: page present, read-write, and user-mode; see handout week10.a (today's)
+    * answer: page present, read-write, and user-mode; see handout week10.a (today's) [TODO(ahs):  references the Core i7 Page Table Translation]
     	* This means that the virtual addresses are valid, and that user programs can read (load) from and write (store) to the virtual address.)
 
 - The memory pages are listed below.
@@ -897,6 +905,7 @@ Answer: "`0xc5202000`"
 
 In particular, here is walking the page tables:
 
+```
   0x0 => [0][0][0] (10bit, 10bit, 12bit)
     [note: in x86-64, 0x0 will be organized as [9bit, 9bit, 9bit, 9bit, 12bit])
 
@@ -904,12 +913,13 @@ In particular, here is walking the page tables:
             +--[index:0]-> 0xf0f02000 (L2 PT) 
                            +--[index:0]-> 0xffff5000 (data page) + 0 (offset)
                                           +--[PA]-> 0xffff5000
+```
 
 * The content of PA `0xffff5000` is "`0xc5202000`"
 * Why "content"?
 	* because C code "`*ptr1`" means _dereferencing_ the pointer "`ptr1`", namely fetching the memory content pointed by "`ptr1`" (pointer = an address).
 
---note: all addresses in this process are physical addresses.
+- note: all addresses in this process are physical addresses.
 
 
 
@@ -936,7 +946,7 @@ In particular, here is walking the page tables:
 to memory on every memory reference?
     - called "walking the page tables"
 
-- Question: to finish one memory access (e.g., movq (0xbebeebee), %rax), how many physical pages CPU (or MMU) has to touch?
+- Question: to finish one memory access (e.g., `movq (0xbebeebee), %rax)`, how many physical pages CPU (or MMU) has to touch?
 	* [answer: 5 (assuming the instruction is already fetched) 4 for L1/2/3/4 page tables, and 1 for the data page]
 
 - performance-wise, this is awful. to make this fast, we need a cache
