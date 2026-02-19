@@ -21,16 +21,23 @@ summary: 'Intro to VM and Paging'
 ## Agenda
 {: .no_toc }
 
-1. 
+1. Lab 2 reviews
+1. Intro to Virtual Memory
+2. Bit Manipulation/Math Refresher
+3. Paging
+    - Intro
+    - Page tables
+    - Multilevel page table
+    - Alternatives & tradeoffs
 
 
 ## Weekly Summary and Where are we?
 
 ### Topics
 
-* **Last Week:** Intro to Concurrency and Synchronization
-* **This Week:** More about Synchronization
-* **Next Week:** Finish up Synchronization, Introduce Virtual Memory
+* **Last Week:** Finish up Synchronization
+* **This Week:** Introduce Virtual Memory
+* **Next Week:** More Virtual Memory, deeper into x86-64 arch, Lab 4, and paging
 
 ### Assignments
 
@@ -48,7 +55,7 @@ summary: 'Intro to VM and Paging'
     * What was tricky? 
     * What of this have you done before/was familiar? 
 
-# Synchronization
+# Finished Synchronization
 
 ## Review from last week
 
@@ -60,112 +67,52 @@ List 5 things!
 * 4)
 * 5)
 
-# Adrienne's Braindump
-
-Virtual Memory-- this is fun! I love virtual memory. 
-
-First, let's go back to what OSTEP is: Operating Systems, Three Easy Pieces (plus one). What are those three pieces? Virtualization, Concurrency, Persistence, and Security, which was treated like a last-minute add-on but really needs to be core to everything we do. Thankfully, virtualization helps handle a bunch of stuff related to security. 
-
-Hopefully not surprisingly, Virtual Memory falls under our "Virtualization" umbrella. What else have we seen so far that is part of this? Process and scheduling. Processes allowed us to think about programs in an abstracted way, so we ahve a consistent way we deal with programs, no matter what the programs are or what they do. It's an abstraction, a virtualization. The process abstraction allows us as developers to think about the program, while the OS thinks about the running of programs-- we each focus on the thing that we care about the most. 
-
-The OS is responsible for a "fair and balanced" use of underlying hardware resources. That's why we have a scheduler, which swaps between processes to allow various resources to be used by different processes. 
-
-Today we're talking about Virtual Memory, which is another abstraction. How many people have worked with the memory hierarchy, and caching? Virtual memory is in many ways an extension of caching, so if you're comfortable with caching, VM should be a nice follow-on. 
-
-[insert mem hierarchy diagram here]
-
-The big takeaway of virtual memory is that it's a mapping between virtual addresses and real physical memory addresses. When a program runs, the data for it (instructions, data, etc) is all stored somewhere in the physical memory of the computer. However, the program itself has a virtual address space, which means that it pretends that it's first memory address is 0x0, or the "very first memory location". Now, in actuality, it's probably NOT at 0x0, because lots of other things are running as well. But, if a program is running, we can pretend it's at 0x0, and shift everything accordingly. 
-
-How does this work? Well, we leave it up to the OS to find a chunk of memory for the program to run in, say it starts at 0x264000-- some location that isn't currently being used for anything else. But, it would be kinda a pain for each program to have to know where exactly it is in memory. So, the OS will do a translation between the physical and virtual memory spaces. 
-
-A short aside: I'm using this 0x00 stuff. What does this mean? This is an address of physical memory/RAM. We usually refer to RAM addresses as hexadecimal values (because, bits. ). That means we'll need to make sure we're comfortable with using hexadecimals and the math of it. 
 
 
-1. Intro to Virtual memory
-2. bit manipulation
-3. Paging
-    --intro
-    --page table
-    --multilevel page table
-    --alternatives & tradeoffs
 
----------------------------------------------------------------------------
+
+# 1. Virtual memory intro
 
 OSTEP: OS in Three Easy Pieces
 
 The three easy pieces:
 
-* Abstractions
+* Virtualization
 * Concurrency
 * Persistence
 * Security
 
 
-# 1. Virtual memory intro
-
---very important idea in computer systems
-
---virtual address translation:
-  VA (virtual address)
-    =>
-  PA (physical address)
-
---setup
-
-draw picture:
-
+* Virtual Memory is part of Virtualization
+    * Very important idea in computer systems!
+    * virtual address translation:
+      VA (virtual address) => PA (physical address)
+    * setup: 
 
 <img src="../../assets/images/notes/week7/rtimage_program_mem.png" alt="program in memory" width="400"/>
 
-
 * heap, stack, program text.
-
-
-      draw picture:
-TODO(ahs): Find the right picture; look in CPP3e
-          * program:
-
-           0x500     movq 0x200000, %rax
-           0x508     incq %rax, 1
-           0x510     movq %rax, 0x300000
-
-          [CPU ---> translation box --> physical addresses]
-
-{: .question }
->
-> how many virtual memory translations happen when the lines above are executed?
->
-><details markdown="block">
-><summary>Answer </summary>
-> 5 total.
-> * 3 for the instructions
-> * 1 for the load
-> * 1 for the store
-></details>
-
-
 * "to virtualize" means "to lie" or "to fool". we'll say how this is implemented in a few moments. for now, let's look at the benefits of being interposed on memory accesses.
 
 ## Benefits of Virtual Memory
 
 ### Programmability ("transparency")
 
-* programs use addresses like `0`, `0x200000`, etc. (see example
+* Programs use addresses like `0`, `0x200000`, etc. (see example
 above)
-
-* three benefits, at least:
-1. program *thinks* it has lots of memory, organized in a contiguous space
-1.  programs can use "easy-to-use" addresses like 0, 0x20000, whatever. compiler and linker don't have to worry about where the program actually lives in physical memory when it executes.
-1. multiple instances of same program foo are each loaded, each thinks its using memory addresses like 0x50000, whatever, but of course they're not using the same physical cells in RAM
+* Three benefits, at least:
+1. Program *thinks* it has lots of memory, organized in a contiguous space
+1.  Programs can use "easy-to-use" addresses like 0, 0x20000, whatever. compiler and linker don't have to worry about where the program actually lives in physical memory when it executes.
+1. Multiple instances of some program foo are each loaded, each thinks its using memory addresses like 0x50000, whatever, but of course they're not using the same physical cells in RAM
 
 ### Protection
 
-* processes cannot read or write each other's memory
-* this protection is at the heart of the isolation among
+* Processes cannot read or write each other's memory
+* This protection is at the heart of the isolation among
 processes that is provided by the OS
-	* prevents bug in one process from corrupting another process. (non-adversarial scenarios)
-    * don't even want a process to observe another process's memory (like if that process has secret or sensitive data). (adversarial scenarios)
-* the idea is that: if you cannot name something, you cannot use it. this is a deep idea.
+	* Prevents bug in one process from corrupting another process. (non-adversarial scenarios)
+    * Don't even want a process to observe another process's memory (like if that process has secret or sensitive data). (adversarial scenarios)
+* The idea is that: **If you cannot name something, you cannot use it.** this is a deep idea.
 
 
 {: .question }
@@ -177,23 +124,17 @@ processes that is provided by the OS
 > file descriptor
 ></details>
 
-* an analogy: "daemon name story"
-  * daemon world and human world (two processes)
-  * if somehow a daemon comes to human world (a shared mem/fd)
-  * if a human knows the daemon's name (a piece of code having the mem-address/fd)
-  * then the human can kill/control (?) the daemon (the code can use the mem/fd)
-
 
 ### Effective use of resources
 
-* programmers don't have to worry that the sum of the memory consumed by all active processes is larger than physical memory.
+* Programmers don't have to worry that the sum of the memory consumed by all active processes is larger than physical memory.
 
 ### Sharing
 
-* processes share memory under controlled circumstances,
+* Processes share memory under controlled circumstances,
 but that physical memory may show up at very different
 virtual addresses
-* that is, two processes have a different way to refer
+* That is, two processes have a different way to refer
 to the same physical memory cells
     * how is this translation implemented?
        * software(OS)-hardware(MMU) co-design
@@ -201,15 +142,13 @@ to the same physical memory cells
        configured by the OS.
        * this hardware is called the MMU, for memory management unit,
        and is part of the CPU
-       * why doesn't OS just translate itself? similar to asking why we
-       don't execute programs by running them on an emulation of a
-       processor (too slow)
+       * why doesn't OS just translate itself? 
+            * similar to asking why we don't execute programs by running them on an emulation of a processor (too slow)
     * things to remember in what follows:
-        * OS is going to be setting up data structures that
-        the hardware sees
+        * OS is going to be setting up data structures that the hardware sees
         * these data structures are *per-process* 
 
-# 2. Some Reminders: bit manipulation
+# 2. Bit manipulation refresher
 
 * 0s and 1s are basics of computer
 * Hexadecimal numbers (or hex numbers)
@@ -565,11 +504,11 @@ The first 10 bits are the index into the top-level page table, the second 10 bit
 >
 ><details markdown="block">
 ><summary>Answer </summary>
->        2GB = 1024 * 2MB = 1024* 512 * 4KB
->       the last level PT (L4) have 1024 pages
->       the 2nd last level has 2 pages
->       the first two levels have 1 page each
->       in total, we need 1028 PT pages (= 1 + 1 + 2 + 1024)
+> *  2GB = 1024 * 2MB = 1024* 512 * 4KB
+> * the last level PT (L4) have 1024 pages
+> * the 2nd last level has 2 pages
+> * the first two levels have 1 page each
+> * in total, we need 1028 PT pages (= 1 + 1 + 2 + 1024)
 ></details>
 
 
@@ -581,8 +520,9 @@ The first 10 bits are the index into the top-level page table, the second 10 bit
 >
 ><details markdown="block">
 ><summary>Answer </summary>
-> 1 + 512 + 512^2 + 512^3
-> (L1) (L2)  (L3)    (L4)
+>
+>      1 + 512 + 512^2 + 512^3
+>     (L1) (L2)  (L3)    (L4)
 >
 > Notice that the size of the L4 PT is equivalent to the "array" (in the sky) we talked about last time.
 >
@@ -591,18 +531,15 @@ The first 10 bits are the index into the top-level page table, the second 10 bit
 
 # 2. x86-64: addresses
 
-x86 architecture is 64-bits. registers and addresses are 64-bits
-wide
+* x86 architecture is 64-bits. 
+    * registers and addresses are 64-bits wide
 
-VIRTUAL ADDRESSES
+## VIRTUAL ADDRESSES in x86-64
 
-on currently-available x86-64 machines, only 48 bits "matter". (conclusion: not all 64-bit patterns correspond to meaningful virtual addresses)
-
-Bit patterns that are valid addresses are called _canonical addresses_. 
-
-Canonical address has all 0s or all 1s in the upper 16 bits (bits 63 through 48). Has to match whatever bit 47 is. [see 3.3.7.1 in the Intel software developer's manual]
-
-Result: address space is 2^{48} = 256 TB
+* On currently-available x86-64 machines, only 48 bits "matter". (conclusion: not all 64-bit patterns correspond to meaningful virtual addresses)
+    * Bit patterns that are valid addresses are called _canonical addresses_. 
+    * Canonical address has all 0s or all 1s in the upper 16 bits (bits 63 through 48). Has to match whatever bit 47 is. [see 3.3.7.1 in the Intel software developer's manual]
+    * Result: address space is 2^{48} = 256 TB
 
 [ Another way to look at it:
 
@@ -627,47 +564,32 @@ Result: address space is 2^{48} = 256 TB
     --implemented in the Ice Lake processors, and Linux kernel 4.14
 ]
 
-PHYSICAL ADDRESSES
+## PHYSICAL ADDRESSES in x86-64
 
-52 bits
-Question: why 52? see handout panel 3, 4
-[answer: 40bit (in PTE) + 12bit (page)]
+* 52 bits
+* Question: why 52? see handout panel 3, 4
+    * [answer: 40bit (in PTE) + 12bit (page)]
+* Means a single machine can address up to 4 PB of physical memory.
+    * of course, if the machine only has 16 GB (say), then physical addresses will (roughly speaking) only have 34 bits that matter, and thus the top 18 (=52-34) bits of physical addresses will generally be zero 
+* [NOTE: this is a simplification, owing to the "physical memory map"; however, we will not encounter that too much in this class.]
 
-{: .question }
->
-> why 52? see handout panel 3, 4
->
-><details markdown="block">
-><summary>Answer </summary>
-> 40bit (in PTE) + 12bit (page)
-></details>
+## MAPPING
 
-
-Means a single machine can address up to 4 PB of physical memory.
-
-of course, if the machine only has 16 GB (say), then physical addresses will (roughly speaking) only have 34 bits that matter, and thus the top 18 (=52-34) bits of physical addresses will generally be zero 
-
-[NOTE: this is a simplification, owing to the "physical memory map"; however, we will not encounter that too much in this class.]
-
-MAPPING
-
-have to map 48-bit number (virtual address) to 52-bit number (physical address), at the granularity of ranges of 2^{12}
+* have to map 48-bit number (virtual address) to 52-bit number (physical address), at the granularity of ranges of 2^{12}
 
 # 3. x86-64: page table structures
 
- ** walk through the handout
-
-[img goes here AHS]
-
+See full handout <a href="../../assets/images/notes/week7/virtual_memory_handout.pdf">here</a>. 
+ 
 
 <img src="../../assets/images/notes/week7/i7_page_table_translation.png" alt="---" width="600"/>
 
 
-<img src="../../assets/images/notes/week7/symbols.png" alt="program in memory" width="400"/>
+<img src="../../assets/images/notes/week7/symbols.png" alt="program in memory" width="600"/>
 
-<img src="../../assets/images/notes/week7/i7_page_table_entries.png" alt="program in memory" width="400"/>
+<img src="../../assets/images/notes/week7/i7_page_table_entries.png" alt="program in memory" width="600"/>
 
-<img src="../../assets/images/notes/week7/i7_level4_page_table_entries.png" alt="program in memory" width="400"/>
+<img src="../../assets/images/notes/week7/i7_level4_page_table_entries.png" alt="program in memory" width="600"/>
 
 
 `%cr3` is the address of the top-level directory (L1 page table)
@@ -675,7 +597,7 @@ have to map 48-bit number (virtual address) to 52-bit number (physical address),
 
 {: .question }
 >
-> is that address a physical address or virtual address?
+> Is that address a physical address or virtual address?
 >
 ><details markdown="block">
 ><summary>Answer </summary>
@@ -762,8 +684,6 @@ What do the U/S and R/W bits do?
 
 # 4. Practice
 
-
-   [skipped]
 ## A: memory that different PTEs can address
 
 - Question: how much memory can one L1 page entry address?
@@ -885,6 +805,8 @@ In particular, here is walking the page tables:
 
 - note: all addresses in this process are physical addresses.
 
+# Next Time
 
+More on the x86-64 architecture, making Virtual Memory more performant using TLBs. 
 
 [Acknowledgments: Mike Walfish, David Mazieres, Mike Dahlin]
