@@ -40,6 +40,10 @@ collections:
     permalink: "/:collection/:path/"
   homeworks:
     permalink: "/:collection/:path/"
+    order:
+      - hw1.md
+      - hw2.md
+      - hw3.md
     output: true
   notes: 
     output: true

@@ -345,6 +345,11 @@ x86 page table: translate a VA to PA
 Practice:
 
 - This is the standard x86 32-bit two-level page table structure (not x86-64; we use 32-bit for simplicity).
+    * Remember: 
+        * Addresses are 32 bits
+        * Since we assume the addresses are page-aligned, the bottom 12 bits of an address are always 0
+        * We'll re-use those bottom 12 bits to track permissions
+        * The address in the `%cr3` register indicates the starting address of the L1 page table.
 - The permission bits of page directory entries and page table entries are set to 0x7.
     * what does 0x7 mean? 
         * answer: page present, read-write, and user-mode; [see handout](../../assets/images/notes/week7/virtual_memory_handout.pdf)
@@ -353,7 +358,7 @@ Practice:
 - The memory pages are listed below.
    On the left side of the pages are their addresses.
    (For example, the address of the "top-left" memory block (4 bytes) is
-   0xf0f02ffc, and its content is 0xf0f03007.)
+   `0xf0f02ffc`, and its content is `0xf0f03007`.)
 ```
   %cr3:  0xffff1000
 
@@ -569,7 +574,7 @@ NOTE: that means that physical memory that is in use is mapped in at least two p
 
 
 
-# 7. Page faults
+# 7. Page faults [Next time!]
 
 ##   A. intro and mechanics
 
