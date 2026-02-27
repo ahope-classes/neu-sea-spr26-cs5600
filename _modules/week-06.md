@@ -6,7 +6,7 @@ Feb 9
  : : **RELEASED**{: .label .label-green } [HW5]({{site.url}}{{site.baseurl}}/homeworks/hw5)
 
 Feb 11
-: **Lecture**{: .label .label-yellow } Concurrency, Synchronization. 
+: **Lecture**{: .label .label-yellow } Concurrency, Synchronization. ([Notes]({{site.url}}{{site.baseurl}}/notes/week6), [Scribbles]({{site.url}}{{site.baseurl}}/assets/week6_notes_scribbles.pdf))
   : **READING**{: .label .label-purple } OSTEP [Chapter 32](https://pages.cs.wisc.edu/~remzi/OSTEP/threads-bugs.pdf)
 
 Feb 13

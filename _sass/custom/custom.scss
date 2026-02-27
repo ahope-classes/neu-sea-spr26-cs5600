@@ -142,6 +142,13 @@ summary {
     
 }
 
+.memory-table {
+  border-collapse: collapse;
+  width: unset;
+  min-width: 1% !important;
+  margin: 1em 0;
+}
+
 
 .scheduling-table {
   border-collapse: collapse;
