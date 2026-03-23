@@ -8,7 +8,7 @@ summary: "Implement pieces of a simple disk-based file system. Ties back to Lab 
 ---
 
 
-# Lab 5: XXX 
+# Lab 5: File System  
 {:.no_toc} 
 
 ## Table of contents
@@ -380,10 +380,47 @@ $ echo "hello" > "mnt/world"; cat "mnt/world"
 >
 > Use `make grade` to test your code (`$ sudo make grade`). Your code should pass the "inode_flush/inode_truncate/file rewrite" tests.
 
+{: .important-title }
+> ## Exercise 4b: File System Consistency Checker
+> 
+> Even a correct file system implementation can end up in an inconsistent state if the driver is interrupted mid-operation — for example, if a block is allocated but never linked into an inode, or if a directory entry references an inode whose link count was never incremented. A *file system checker* (`fsck`) scans the on-disk structure and verifies that a set of invariants hold, reporting (and optionally repairing) any violations it finds.
+> 
+> You will implement a checker that runs *offline* — directly against an unmounted disk image, without going through FUSE — as a standalone program `build/fsck`.
+> 
+> Implement `fsck` in `fsck.c`. Your checker must verify all of the following invariants. For each violation found, print a descriptive message to stdout identifying the affected inode or block number and the nature of the violation.
+> 
+> 1. **Superblock validity.** The magic number is correct, and `s_root` refers to a valid, in-use block.
+> 
+> 2. **Bitmap / free list consistency.** Every block marked as in-use is reachable from some inode (via direct, indirect, or double-indirect pointers), the superblock, or the bitmap/free list region itself. Every block reachable from an inode is marked in-use. (No block should be both reachable and marked free, and no block should be marked in-use but unreachable.)
+> 
+> 3. **No double allocation.** No disk block is referenced by more than one inode.
+> 
+> 4. **Link count consistency.** For each inode, the link count stored in `i_nlink` equals the number of directory entries in the file system that reference that inode's block number. (Traverse all directories to count references.)
+> 
+> 5. **Directory structure validity.** Every inode of type `T_DIR` contains a sequence of valid `dirent` structures. Each `dirent` with a nonzero inode number must reference a block that contains a valid inode. No directory (other than the root) should be unreachable from the root via directory traversal.
+> 
+> 6. **No cycles in the directory tree.** The directory structure must form a tree rooted at the root inode, not a graph with cycles.
+> 
+> Your checker does not need to *repair* violations, only detect and report them.
+> 
+> **To test your checker**, we provide a set of intentionally corrupted disk images in `test/corrupt-images/`. Each image contains exactly one type of violation. Run:
+> 
+> ```
+> $ build/fsck test/corrupt-images/double-alloc.img
+> $ build/fsck test/corrupt-images/bad-linkcount.img
+> $ build/fsck test/corrupt-images/unreachable-block.img
+> ```
+> 
+> Your checker should correctly identify the violation in each image and exit with a nonzero status. On a clean image it should print nothing and exit 0.
+> 
+> Use `make grade` to test. Your code should pass the `fsck` tests.
+> 
+> **Think about:** Which of these invariants could be violated by a crash between two `flush_block` calls in your `inode_truncate_blocks` implementation? Can you identify a specific operation sequence that would produce a double-allocation? (No write-up required)
+> 
 
 
 {: .important-title }
-> ## Exercise 5. 
+> ## Exercise 5. Implement `inode_link` and `inode_unlink` 
 > 
 > Implement `inode_link` and `inode_unlink` in `inode.c`. `inode_link` links an inode referenced by one path to another location, and `inode_unlink` removes a reference to an inode at a specified path. Make sure that you properly increment the link count in an inode when linking and decrement the link count when unlinking. Don't forget to free an inode when its link count reaches zero!
 > 
@@ -400,7 +437,7 @@ $ echo "hello" > "mnt/world"; ln "mnt/world" "mnt/hello"; rm "mnt/world"; cat "m
 The tests after "inode_link/inode_unlink" are all effectively stress tests, in some way or another, for the driver. Each of them relies on the core functionality that you implemented; some can fail if you didn't handle certain edge cases correctly. If you fail one of these tests, go back and check the logic in your code to make sure you didn't miss anything.
 
 {: .important-title }
-> ## Exercise 6. 
+> ## Exercise 6. Run `ls` from Lab 2
 > 
 > Run your `ls` from lab 2 against the file system in `/lab5mnt`. Paste the output of
 >
@@ -412,121 +449,6 @@ The tests after "inode_link/inode_unlink" are all effectively stress tests, in s
 >
 > You can have fun –- not graded –- using the fact that you are writing both `ls` and implementing the file system. For example, you could consider having your file system stuff coded messages in extraneous dirents, and then interpret/decode them in `ls`.
 
-# Extra credit questions
-Do either of the following for extra credit (you can do both, but extra credit is given for only one). As in lab4, the points given will not be commensurate with effort required.
-
-{: .important-title }
-> ## Exercise 7. 
->
->The file system is likely to be corrupted if it gets interrupted in the middle of an operation (for example, by a crash or a reboot). Implement soft updates or journalling to make the file system crash-resilient and demonstrate some situation where the old file system would get corrupted, but yours doesn't.
-
-
-
-{: .important-title }
-> ## Exercise 8. 
->
-> Currently, our file system allocates one block (4096 bytes) per inode. However, each struct inode only takes up 98 bytes. If we were clever with file system design, we could store 4096/98 = 41 inodes in every block. Modify the file system so that inodes are stored more compactly on disk. You may want to make the file system more like a traditional UNIX file system by splitting up the disk into inode and data regions, so that it is easier to reference inodes by an index (generally called an "inum" for "inode number") into the inode region.
-
-
-# Adrienne's Replacements 
-
-Here are draft write-ups for all three modified exercises:
-
----
-
-## Exercise 2 (replacement): Free List Block Allocation
-
-In the original file system, free disk blocks were tracked using a *bitmap* — a compact array of bits, one per block, where a set bit indicates a free block. In this lab, we use a different approach: a **free list**, stored explicitly on disk.
-
-The free list is a singly-linked list of free blocks. Each free block stores, in its first 4 bytes, the block number of the next free block in the list (or 0 if it is the last). The superblock's `s_freelist` field holds the block number of the first free block in the list (the head). When no free blocks remain, `s_freelist` is 0.
-
-This structure has a pleasing property: the free list requires no extra storage beyond the free blocks themselves. The metadata lives inside the blocks being tracked.
-
-**Exercise 2.** Implement `alloc_diskblock` and `free_diskblock` in `freelist.c`.
-
-`alloc_diskblock` should remove the head block from the free list, update `s_freelist` in the superblock to point to the next free block, zero out the allocated block's contents, and return the block number. As with the bitmap version, you must flush any modified blocks to disk immediately after changing them, to maintain consistency.
-
-`free_diskblock` should insert the given block at the head of the free list, writing the old head's block number into the first 4 bytes of the newly freed block, and updating `s_freelist` accordingly. Again, flush immediately.
-
-**Note:** Study `diskblock2memaddr` and `flush_block` carefully — you will need both. Also consider: what happens if `alloc_diskblock` is called when the free list is empty? Return an appropriate error.
-
-Use `make grade` to test your code. Your code should pass the `alloc_diskblock` test.
-
-**Think about:** What are the trade-offs between a free list and a bitmap? Under what workloads would each perform better? (You do not need to write up an answer, but keep this in mind for the exam.)
-
----
-
-## Exercise 5 (replacement): Symbolic Links
-
-In the previous exercise, you implemented `inode_link` and `inode_unlink` to manage *hard links* — multiple directory entries pointing directly to the same inode. In this exercise, you will implement *symbolic links* (symlinks), which work differently: a symlink is its own inode, whose data contains the path to the target file as a plain string. The target inode's link count is not affected.
-
-When the file system resolves a path that passes through a symlink, it must detect the symlink and follow it — substituting the symlink's stored path and continuing resolution from there. Your implementation should handle symlinks that appear at any component of a path, not just at the end.
-
-**Exercise 5.** Implement the following in `inode.c` and `dir.c`:
-
-- `inode_symlink(const char *src, const char *dst)`: Creates a new inode of type `T_SYM` at path `dst`. The data of this inode should be the null-terminated string `src` (the target path). You will need to allocate and write a data block to hold the target path.
-
-- `inode_readlink(struct inode *ino, char *buf, size_t bufsz)`: Reads the target path stored in a symlink inode into `buf`. Returns an error if `ino` is not of type `T_SYM`.
-
-- Modify `dir_walk` in `dir.c` to detect when a path component resolves to a `T_SYM` inode, read the target path with `inode_readlink`, and continue resolution from that path. You should handle both absolute and relative symlink targets. To prevent infinite loops, return an error (e.g., `-ELOOP`) if you follow more than 8 symlinks in a single resolution.
-
-**Note:** Unlike hard links, a symlink can point to a nonexistent target (a "dangling" symlink). Your implementation should not error at creation time if the target does not exist — only at resolution time.
-
-Use `make grade` to test your code. Your code should pass the `inode_symlink/inode_readlink` tests.
-
-After completing this exercise, verify your implementation with:
-
-```
-$ echo "hello" > mnt/target
-$ ln -s target mnt/link
-$ cat mnt/link
-hello
-$ rm mnt/target
-$ cat mnt/link   # should produce an error — dangling symlink
-```
-
----
-
-## Exercise 4b (new): File System Consistency Checker
-
-Even a correct file system implementation can end up in an inconsistent state if the driver is interrupted mid-operation — for example, if a block is allocated but never linked into an inode, or if a directory entry references an inode whose link count was never incremented. A *file system checker* (`fsck`) scans the on-disk structure and verifies that a set of invariants hold, reporting (and optionally repairing) any violations it finds.
-
-You will implement a checker that runs *offline* — directly against an unmounted disk image, without going through FUSE — as a standalone program `build/fsck`.
-
-**Exercise 4b.** Implement `fsck` in `fsck.c`. Your checker must verify all of the following invariants. For each violation found, print a descriptive message to stdout identifying the affected inode or block number and the nature of the violation.
-
-1. **Superblock validity.** The magic number is correct, and `s_root` refers to a valid, in-use block.
-
-2. **Bitmap / free list consistency.** Every block marked as in-use is reachable from some inode (via direct, indirect, or double-indirect pointers), the superblock, or the bitmap/free list region itself. Every block reachable from an inode is marked in-use. (No block should be both reachable and marked free, and no block should be marked in-use but unreachable.)
-
-3. **No double allocation.** No disk block is referenced by more than one inode.
-
-4. **Link count consistency.** For each inode, the link count stored in `i_nlink` equals the number of directory entries in the file system that reference that inode's block number. (Traverse all directories to count references.)
-
-5. **Directory structure validity.** Every inode of type `T_DIR` contains a sequence of valid `dirent` structures. Each `dirent` with a nonzero inode number must reference a block that contains a valid inode. No directory (other than the root) should be unreachable from the root via directory traversal.
-
-6. **No cycles in the directory tree.** The directory structure must form a tree rooted at the root inode, not a graph with cycles.
-
-Your checker does not need to *repair* violations, only detect and report them.
-
-**To test your checker**, we provide a set of intentionally corrupted disk images in `test/corrupt-images/`. Each image contains exactly one type of violation. Run:
-
-```
-$ build/fsck test/corrupt-images/double-alloc.img
-$ build/fsck test/corrupt-images/bad-linkcount.img
-$ build/fsck test/corrupt-images/unreachable-block.img
-```
-
-Your checker should correctly identify the violation in each image and exit with a nonzero status. On a clean image it should print nothing and exit 0.
-
-Use `make grade` to test. Your code should pass the `fsck` tests.
-
-**Think about:** Which of these invariants could be violated by a crash between two `flush_block` calls in your `inode_truncate_blocks` implementation? Can you identify a specific operation sequence that would produce a double-allocation? (No write-up required, but this connects directly to the journaling extra credit.)
-
----
-
-A few notes on these drafts: the symlink exercise assumes you add a `T_SYM` type constant and an `s_freelist` field to `fs_types.h` / the superblock struct — you'd need to update the scaffolding accordingly. The `fsck` exercise also requires you to provide the corrupted test images, which you could generate with a small script that runs the driver and then hex-edits the resulting `.img` file. Happy to help draft those image-generation scripts or the scaffolding changes if useful.
-
 
 # Further questions
 Answer the following questions in `answers.txt`.
@@ -534,43 +456,36 @@ Answer the following questions in `answers.txt`.
 * How long approximately did it take you to do this lab?
 * Do you feel like you gained an understanding of how to build a file system in this lab? Please suggest improvements.
 
-
 # Submission
-## Handing in consists of three steps:
 
-## Executing this checklist:
+### Step 1: The Checklist
 
-Make sure your code builds, with no compiler warnings.
-Make sure you’ve used git add to add any files that you’ve created.
-Fill out the top of the answers.txt file, including your name and NYU Id
-Make sure you’ve answered every question in answers.txt
-Make sure you have answered all code exercises in the files.
-Create a file called slack.txt noting how many slack days you have used for this assignment. (This is to help us agree on the number that you have used.) Include this file even if you didn’t use any slack days.
-git add and commit the slack.txt file
-Push your code to GitHub, so we have it (from outside the container or, if on Mac, this will also work from within the container):
+Executing this checklist:
+- [ ] Make sure your code builds, with no compiler warnings.
+- [ ] Answer questions in the answer.txt file
+- [ ] Make sure you’ve used `git add` to add any files that you’ve created.
+- [ ] Push your code to GitHub, so we have it (from outside the container or, if on Mac, this will also work from within the container):
 
-$ cd ~/cs5600/lab5 
+
+```sh
+$ cd ~/cs5600/lab5
 $ make clean
 $ git commit -am "hand in lab5"
 $ git push origin 
+```
 
-Counting objects: ...
-....
-To  git@github.com:nyu-cs5600/XXX-<YourGithubUsername>.git
-  7337116..ceed758  main -> main
-Actually submit, by timestamping and identifying your pushed code:
+### Step 2: Choose your Git commit to submit
 
-Decide which git commit you want us to grade, and copy its id (you will paste it in the next sub-step). A commit id is a 40-character hexadecimal string. Usually the commit id that you want will be the one that you created last. The easiest way to obtain the commit id for the last commit is by running the command git log -1 --format=oneline. This prints both the commit id and the initial line of the commit message. If you want to submit a previous commit, there are multiple ways to get the commit id for an earlier commit. One way is to use the tool gitk. Another is git log -p, as explained here, or git show.
-Create a new file commit.txt locally with only the commit id you just copied.
-Now go to Gradescope and select the “Lab 5” assignment; then choose Upload as the submission method. Submit only commit.txt.
-You can submit multiple times before the deadline. We will grade the last commit id submitted before the deadline.
-NOTE: Ground truth is what and when you submitted to Gradescope. Thus, a non-existent commit id in Gradescope means that you have not submitted the lab, regardless of what you have pushed to GitHub. And, the time of your submission for the purposes of tracking lateness is the time when you submit the assignment through Gradescope, not the time when you executed git commit.
+Decide which git commit you want us to grade, and copy its id (you will paste it in the next sub-step). Usually the commit id that you want will be the one that you created last. The easiest way to obtain the commit id for the last commit is by running the command `git log -1 --format=oneline`. This prints both the commit id and the initial line of the commit message. If you want to submit a previous commit, there are multiple ways to get the commit id for an earlier commit. One way is to look at the commit history on GitHub. Another is `git log -p`, as explained here, or `git show`.
 
-After you submit your assignment, we will process it as follows:
 
-We’ll checkout your GitHub repository using the commit ID you provided in the commit.txt file. We may upload this code to your Gradescope assignment. As a result, you may notice that your latest submission on Gradescope is marked as “late,” even if you submitted on time. Don’t worry about this discrepancy; it’s an expected part of our process. What matters is that you submit your commit.txt file on time. To verify your actual submission time, always refer to the latest submission of commit.txt in the “Submission History” on Gradescope. This is the timestamp we use to determine if your assignment was submitted by the deadline. We use this method to enable direct annotation of your code on Gradescope, allowing us to provide more detailed feedback.
+### Step 3: Submit your Git commit AND Git repo link on Canvas
 
-Remember, as long as your commit.txt is submitted before the deadline with the correct commit ID, your assignment will be considered on time, regardless of when the code appears on Gradescope.
+Go to Canvas, find the Lab 5 assignment and paste the commit ID AND **a link** to your Github repo.
+
+{: .note }
+>
+>Ground truth is what and when you submitted to Canvas. Thus, a non-existent commit id in Canvas means that you have not submitted the lab, regardless of what you have pushed to GitHub. And, the time of your submission for the purposes of tracking lateness is the time when you submit the assignment through Canvas, not the time when you executed git commit.
 
 This completes the lab.
 
