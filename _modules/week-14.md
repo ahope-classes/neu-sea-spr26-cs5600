@@ -7,8 +7,8 @@ Apr 6
  
 
 Apr 8
-: **Lecture**{: .label .label-yellow } Security, cont.. 
-  : **READING**{: .label .label-purple } Coming soon 
+: **Lecture**{: .label .label-yellow } Security
+  : **READING**{: .label .label-purple } OSTEP [Chapter 53](https://pages.cs.wisc.edu/~remzi/OSTEP/security-intro.pdf) OSTEP [Chapter 55](https://pages.cs.wisc.edu/~remzi/OSTEP/security-access.pdf) 
 
 Apr 10
   :  : **DUE**{: .label .label-red } [Lab 5]({{site.url}}{{site.baseurl}}/labs/lab5)

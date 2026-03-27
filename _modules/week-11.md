@@ -1,5 +1,5 @@
 ---
-title: 'Week 11: File Systems'
+title: 'Week 11: IO, HDDs'
 ---
 
 
@@ -8,8 +8,8 @@ Mar 16
  
 
 Mar 18
-: **Lecture**{: .label .label-yellow } File Systems. 
-  : **READING**{: .label .label-purple } OSTEP [Chapter 39](https://pages.cs.wisc.edu/~remzi/OSTEP/file-intro.pdf) OSTEP [Chapter 40](https://pages.cs.wisc.edu/~remzi/OSTEP/file-implementation.pdf) OSTEP [Chapter 41](https://pages.cs.wisc.edu/~remzi/OSTEP/file-ffs.pdf) OSTEP [Chapter 42](https://pages.cs.wisc.edu/~remzi/OSTEP/file-journaling.pdf)
+: **Lecture**{: .label .label-yellow } IO
+  : **READING**{: .label .label-purple } OSTEP [Chapter 36](https://pages.cs.wisc.edu/~remzi/OSTEP/file-devices.pdf) OSTEP [Chapter 37](https://pages.cs.wisc.edu/~remzi/OSTEP/file-disks.pdf) OSTEP [Chapter 44](https://pages.cs.wisc.edu/~remzi/OSTEP/file-ssd.pdf)
 
 Mar 20
   :  : **DUE**{: .label .label-red } [HW8]({{site.url}}{{site.baseurl}}/homeworks/hw8)
