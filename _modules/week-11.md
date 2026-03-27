@@ -8,7 +8,7 @@ Mar 16
  
 
 Mar 18
-: **Lecture**{: .label .label-yellow } IO
+: **Lecture**{: .label .label-yellow } IO ([Scribbles]({{site.url}}{{site.baseurl}}/assets/week11_notes_scribbles.pdf))
   : **READING**{: .label .label-purple } OSTEP [Chapter 36](https://pages.cs.wisc.edu/~remzi/OSTEP/file-devices.pdf) OSTEP [Chapter 37](https://pages.cs.wisc.edu/~remzi/OSTEP/file-disks.pdf) OSTEP [Chapter 44](https://pages.cs.wisc.edu/~remzi/OSTEP/file-ssd.pdf)
 
 Mar 20
