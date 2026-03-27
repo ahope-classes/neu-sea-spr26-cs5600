@@ -7,6 +7,6 @@ Mar 23
  
 
 Mar 25
-: **Lecture**{: .label .label-yellow } File Systems. 
+: **Lecture**{: .label .label-yellow } File Systems. ([Notes]({{site.url}}{{site.baseurl}}/notes/week12), [Scribbles]({{site.url}}{{site.baseurl}}/assets/week12_notes_scribbles.pdf))
   : **READING**{: .label .label-purple } OSTEP [Chapter 39](https://pages.cs.wisc.edu/~remzi/OSTEP/file-intro.pdf) OSTEP [Chapter 40](https://pages.cs.wisc.edu/~remzi/OSTEP/file-implementation.pdf) OSTEP [Chapter 41](https://pages.cs.wisc.edu/~remzi/OSTEP/file-ffs.pdf) OSTEP [Chapter 42](https://pages.cs.wisc.edu/~remzi/OSTEP/file-journaling.pdf)
 

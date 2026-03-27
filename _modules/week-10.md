@@ -7,7 +7,7 @@ Mar 9
  
 
 Mar 11
-: **Lecture**{: .label .label-yellow } Virtual Memory: TLB and Paging.  Introduce File Systems. 
+: **Lecture**{: .label .label-yellow } Virtual Memory: TLB and Paging.  ([Scribbles]({{site.url}}{{site.baseurl}}/assets/Slides_Week10_TLBandPageFaults_Scribbles.pdf))
 : **CHANGE!!**{: .label .label-blue } Class will be Virtual, Asynchronous this week. 
   : **READING**{: .label .label-purple } OSTEP [Chapter 20](https://pages.cs.wisc.edu/~remzi/OSTEP/vm-smalltables.pdf)OSTEP [Chapter 22](https://pages.cs.wisc.edu/~remzi/OSTEP/vm-beyondphys-policy.pdf)
 
