@@ -1,5 +1,5 @@
 ---
-title: 'Week 10: Input/Output, Part I'
+title: 'Week 10: TLB, Paging. '
 ---
 
 Mar 9
@@ -9,7 +9,7 @@ Mar 9
 Mar 11
 : **Lecture**{: .label .label-yellow } Virtual Memory: TLB and Paging.  Introduce File Systems. 
 : **CHANGE!!**{: .label .label-blue } Class will be Virtual, Asynchronous this week. 
-  : **READING**{: .label .label-purple } OSTEP [Chapter 36](https://pages.cs.wisc.edu/~remzi/OSTEP/file-devices.pdf) OSTEP [Chapter 37](https://pages.cs.wisc.edu/~remzi/OSTEP/file-disks.pdf) OSTEP [Chapter 44](https://pages.cs.wisc.edu/~remzi/OSTEP/file-ssd.pdf)
+  : **READING**{: .label .label-purple } OSTEP [Chapter 20](https://pages.cs.wisc.edu/~remzi/OSTEP/vm-smalltables.pdf)OSTEP [Chapter 22](https://pages.cs.wisc.edu/~remzi/OSTEP/vm-beyondphys-policy.pdf)
 
 Mar 13
   :  : **DUE**{: .label .label-red } [HW7]({{site.url}}{{site.baseurl}}/homeworks/hw7)
