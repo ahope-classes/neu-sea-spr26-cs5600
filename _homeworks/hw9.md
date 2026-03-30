@@ -9,39 +9,40 @@ summary: 'File System. '
 
 
 
-# CS5600 File System (fs5600)
+# File Systems 
 
-These questions are intended to reinforce fs5600.
+These questions should be answered based on the File System as described in Lab 5, and consistent with the FS we discussed in class on Mar 25, 2026. 
 
-## Question 1 (6 pts)
+## Question 1 (7 pts)
 
-Suppose fs5600 has a file `/dir1/dir2/file1`. When a process read the file's information, namely executing:
+Suppose FS has a file `/dir1/dir2/file1.txt`. Then, we have a process that read the file's information, namely executing:
 
 ```c
  struct stat;
- fs_getattr("/dir1/dir2/file1", &stat)
+ fs_getattr("/dir1/dir2/file1.txt", &stat)
 ```
 
-* How many block reads to disk (`block_read`) does fs5600 perform?
-* And what are they (what info stored in these blocks)? (assume buffer cache is empty, meaning you have to read information from disk)
+Answer the following questions: 
+
+* How many reads happen when the FS executes this command? List out what is read during the execution of this command. (Assume any cache is empty). 
 
 
-## Question 2 (6 pts)
 
-Suppose fs5600 has a file `/file1` and the file has 16KB of contents. When a process read 4KB from offset 2KB, namely executing:
+## Question 2 (7 pts)
+
+Suppose our FS has a file `/file1.txt` and the file has 16KB of contents. When a process read 4KB from offset 2KB, namely executing:
 
 ```c
 char buf[4096];
 fs_read("/file1", buf, 4096, 2048, NULL);
 ```
 
-* How many block reads ("block_read") does fs5600 perform?
-* And what are they (what info stored in these blocks)? (assume buffer-cache is empty, meaning you have to read information from disk)
+* How many reads happen when the FS executes this command? List out what is read, and assume any cache is empty. 
 
 
 ## Question 3 
 
-Suppose a new file system fs5600+ has an inode as follows:
+Suppose a new file system FS++ that has an `inode` defined as follows:
 
 ```c
 struct fs_inode2 {
@@ -56,20 +57,19 @@ struct fs_inode2 {
 };
 ```
 
-And the `indirect_ptr` is the indirect pointer in a Unix inode.
-It points to a block (4KB) that contains pointers (`uint32_t`) to actual data blocks.
+In the above, the `indirect_ptr` is an indirect pointer as we see in an Unix inode. It points to a block (4KB) that contains pointers (`uint32_t`) to actual data blocks.
 
 
 ### Q3A (2 pts)
-How many pointers (uint32_t) can one block store? 
+How many pointers (`uint32_t`) can one block store? 
 
 
 ### Q3B (2 pts)
-What is the max number of data block pointers in an fs5600+ inode?  [note: this number includes both pointers in `fs_inode2` and the ones in the indirect block (the block that indirect pointer--`indirect_ptr`---points to).]
+What is the max number of data block pointers in an FS++ `inode`?  (This includes pointers in `fs_inode2` as well as the ones in the indirect block). 
 
 ### Q3C (2 pts)
 
-What's the maximum file size of an fs5600+ file? 
+What's the maximum file size of an FS++ file? 
 
 
 
