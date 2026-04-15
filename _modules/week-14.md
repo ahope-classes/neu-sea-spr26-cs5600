@@ -7,7 +7,7 @@ Apr 6
  
 
 Apr 8
-: **Lecture**{: .label .label-yellow } Security
+: **Lecture**{: .label .label-yellow } Security ([Slide Scribbles]({{site.url}}{{site.baseurl}}/assets/System_Security_Architecture_scribbles.pdf))
   : **READING**{: .label .label-purple } OSTEP [Chapter 53](https://pages.cs.wisc.edu/~remzi/OSTEP/security-intro.pdf) OSTEP [Chapter 55](https://pages.cs.wisc.edu/~remzi/OSTEP/security-access.pdf) 
 
 Apr 10
